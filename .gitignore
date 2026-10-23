@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.ssr/
+.env
+secret.txt
+secrets/
+.env.*
+!.env.example
+*.log
+.DS_Store
