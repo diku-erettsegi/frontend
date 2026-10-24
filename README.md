@@ -1,6 +1,6 @@
 # diku. – React frontend
 
-Magyar nyelvű digitális kultúra emelt érettségi felkészítő, publikus tájékoztató oldalakkal, jelentkezési űrlappal, tanulói és adminisztrációs felülettel. Első, helyben futtatható verzió; éles publikálás nem történt.
+Magyar nyelvű digitális kultúra emelt érettségi felkészítő, publikus tájékoztató oldalakkal, jelentkezési űrlappal, tanulói és adminisztrációs felülettel. Az alkalmazás helyben futtatható, és 2026. október 24-én a Rackforest VPS első teljes telepítése is sikeres. A publikus domain bekötését a felhasználó későbbre halasztotta. Az automatizálás és ellenőrzéseinek irányadó, folyamatosan frissített állapota: [DEPLOY-STATUS](../database/docs/DEPLOY-STATUS.md).
 
 ## Indítás
 
@@ -61,11 +61,13 @@ A jogi piszkozatok, a programozási ízelítő, a belépés, admin és tanulói 
 
 Nincs analitika, hirdetés, külső iframe, külső betűkészletkérés vagy felhasználói követés. Helyi, optimalizált és kreditelt Pexels-stockfotók (egyértelműen illusztrációként jelölve), rendszeres fallback, helyi WOFF2 betűk, gzip és hosszú ideig cache-elhető hash-elt assetek. A kis animáció tiszteletben tartja a `prefers-reduced-motion` beállítást. Formoknál valódi label, fókuszjelölés, státusz/híbaüzenet, skip link, mobil menü. JavaScript nélkül a tájékoztató tartalom látható; adatküldés/belépés JavaScriptet igényel. A formok `method="post"` beállítása megakadályozza a hitelesítő adatok URL-be kerülését sikertelen hidratáláskor.
 
-## Konténer és későbbi szállítás
+## Konténer és szállítás
 
 Többlépcsős Dockerfile: Node build → Nginx, `/healthz` healthcheck, `/api` proxy a `backend:8080` címre. A frontend nem közvetlenül kommunikál MariaDB-vel. Az API és auth shell válaszok no-store cache szabályt kapnak. CSP, nosniff, frame tiltás és referrer policy aktív.
 
 A `main` push CI ellenőrzés után a `ghcr.io/diku-erettsegi/frontend:main` és a teljes commit SHA taggel publikál image-et. PR esetén csak ellenőrzés fut. A live szerver pull/frissítés mechanizmusa az infrastruktúra repository feladata; a workflow nem deployol saját maga VPS-re.
+
+Az első GitHub CI és image-publikálás sikeres. A VPS-en a frontend, backend, MariaDB és cloudflared konténere is **healthy**, a `diku-deploy` felhasználó anonim GHCR image-letöltése működik. A Cloudflare-zóna későbbi névszerverváltásra vár. A `main` push → image-publikálás → szerveroldali timer → frissült alkalmazás folyamat, valamint a belépés/CSRF, mentés és további üzemeltetési próbák aktuális eredményeit a [telepítési állapot](../database/docs/DEPLOY-STATUS.md) rögzíti. A belső VPS-próba nem helyettesíti a későbbi publikus HTTPS-ellenőrzést.
 
 Fontos hálózati szerződés: élesben csak a Cloudflare Tunnel érheti el az Nginxet, publikus frontend/backend hostport nem nyitható. Az Nginx a megbízható tunnel `CF-Connecting-IP` értékéből állítja az `X-Forwarded-For` címet, és átengedi a tunnel HTTPS protokolljelzését. A helyi fallback a közvetlen kapcsolat címe. Publikus közvetlen elérés esetén ezeket a proxyheadereket újra kell tervezni, mert a kliens hamisíthatná őket.
 

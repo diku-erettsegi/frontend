@@ -1,10 +1,16 @@
-# Átadás – frissítve 2026. október 22.
+# Átadás – frissítve 2026. október 24.
 
-## Production proxy ellenőrzés
+## Aktuális telepítési állapot
+
+Az első teljes Rackforest VPS-telepítés sikeres: a frontend, backend, MariaDB és cloudflared konténere egyaránt **healthy**. Az első GitHub main push és CI image-publikálás megtörtént, a `diku-deploy` felhasználó anonim GHCR image-letöltése ellenőrzött.
+
+A Cloudflare-zóna későbbi névszerverváltásra vár: a felhasználó ezt most kifejezetten kihagyta a feladatból. A publikus domain/HTTPS működésének ellenőrzése ezért későbbi lépés. A `main` push → CI → GHCR → szerveroldali timer → alkalmazásfrissítés ciklus, a production auth- és mentési próbák állapotát, a timerek aktiválását és minden új eredményt a **[database/docs/DEPLOY-STATUS.md](../database/docs/DEPLOY-STATUS.md)** tart nyilván; ez az irányadó élő állapot. Az alábbi korábbi ellenőrzések történeti pillanatképek.
+
+## Production proxy ellenőrzés – október 22.
 
 A Cloudflare Tunnel mögötti Spring `framework` feldolgozás miatt az Nginx API proxy most törli a kliens RFC `Forwarded`, `X-Forwarded-Port`, `X-Forwarded-Prefix` és `X-Forwarded-Ssl` fejléceit. Csak a saját, megbízható forrásból képzett X-Forwarded-For/Host/Proto értékeket továbbítja. Ez megakadályozza, hogy alternatív fejléccel felülírják a Spring által látott címet/protokollt és az IP-alapú korlátozás alapját.
 
-Új regresszió: `tests/proxy.test.mjs`, futtatás `npm run test:proxy`. Izolált Docker-hálózaton valódi Nginx és egyszerű HTTP echo backend ellenőrzi a fejlécszűrést és a normál proxy/HTML útvonalakat. A frontend CI-ben a `verify` része, tehát siker nélkül nem publikál `main` image-et. A backend workflow változatlan: main-only publikálás, `needs: verify`, GHCR packages:write és main+commit SHA tagek megfelelőek. Production VPS-módosítás és push nem történt.
+Új regresszió: `tests/proxy.test.mjs`, futtatás `npm run test:proxy`. Izolált Docker-hálózaton valódi Nginx és egyszerű HTTP echo backend ellenőrzi a fejlécszűrést és a normál proxy/HTML útvonalakat. A frontend CI-ben a `verify` része, tehát siker nélkül nem publikál `main` image-et. A backend workflow változatlan: main-only publikálás, `needs: verify`, GHCR packages:write és main+commit SHA tagek megfelelőek. Ebben az október 22-i ellenőrzési körben production VPS-módosítás és push még nem történt.
 
 Ellenőrizve: `npm run test:proxy` sikeres. A teszt részeként `nginx -t` is sikeres; a hamis forwarding fejlécek eltűnnek, a megbízható klienscím/host/HTTPS és a cookie/CSRF/POST/query továbbítása megmarad. A 200/relatív301/valódi404/no-store vizsgálatok sikeresek. A tesztkonténerek és -hálózat takarítása ellenőrizve. A root ezután október 22-én újraépítette és egészségesen elindította a helyi frontend konténert: a Docker buildben a TypeScript/prerender és a 6/6 SEO teszt is sikeres. Backendteszt-ismétlés és alkalmazásadat-módosítás ebben a deploy-előkészítésben nem történt.
 
@@ -28,7 +34,7 @@ Helyi ellenőrzés az új változaton: `npm run build` sikeres (TypeScript, klie
 
 Első teljes frontend implementáció, üres repositoryból. Publikus tájékoztató és jelentkezés, session belépés, tanulói órák/fájlok, admin jelentkezés/felhasználó/óra/fájl/audit panel készült. React komponensek tényleges API hívásokkal dolgoznak; nincs mock állapotot valósnak mutató fallback.
 
-Arculat: krém/zsályazöld, Manrope + DM Sans saját kiszolgálással, editorial szöveg, CSS/SVG tanulási illusztráció, visszafogott animáció. Marketing copy rövid, a hiányzó üzleti adatok helyőrzők. Az eredeti feladat a helyi működés és későbbi Docker/Ubuntu/Cloudflare felkészítés; éles telepítés nem történt.
+Arculat: krém/zsályazöld, Manrope + DM Sans saját kiszolgálással, editorial szöveg, CSS/SVG tanulási illusztráció, visszafogott animáció. Marketing copy rövid, a hiányzó üzleti adatok helyőrzők. Az eredeti feladat a helyi működés és későbbi Docker/Ubuntu/Cloudflare felkészítés volt; az alapimplementáció idején éles telepítés még nem történt.
 
 Build generálja a 13 ismert útvonal HTML-jét, a 404 oldalt, a sitemapet és robots fájlt. Admin/tanuló/belépés és jogi piszkozatok noindex. Docker és main CI image-publikálás előkészítve. Módosítási útmutató az AGENTS.md és README.md fájlokban.
 

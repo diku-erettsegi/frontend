@@ -13,4 +13,4 @@
 - Ne tölts be harmadik fél betűkészletet, követőkódot vagy térképet külön termékdöntés nélkül. A betűk a helyi Fontsource csomagokból jönnek.
 - Ellenőrzés módosítás után: `npm run build`, majd `npm test`; releváns mobil/asztali és API folyamat ellenőrzés. Dokumentáld a valós ellenőrzési korlátokat.
 - Nginx valódi404/relative301/CSP/tunnel-proxy szerződés lényeges. Az éles frontend és backend kizárólag belső Docker-hálózaton legyen.
-- A deploy most előkészített, nem aktivált. Ne pusholj, ne tölts fel és ne publikálj külön felhatalmazás nélkül.
+- A VPS első telepítése megtörtént; az aktuális automatizálási állapot a `../database/docs/DEPLOY-STATUS.md` fájlban van. A domain névszerverváltását a felhasználó későbbre halasztotta. A munkamenetben adott deploy/push felhatalmazást vedd figyelembe; új, azon kívüli publikálást külön egyeztess.
