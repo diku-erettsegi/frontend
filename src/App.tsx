@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { pages } from './seo';
 import { Login, Portal, CoursesSection, ProgrammingInterestForm } from './Portal';
 import { ExamResources } from './ExamResources';
+import './pricing.css';
 
 export function Arrow({ diagonal = false }: { diagonal?: boolean }) { return <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6"><path d={diagonal ? 'M6 18 18 6M6 6h12v12' : 'M4 12h15M13 6l6 6-6 6'} /></svg>; }
 export function Icon({ kind }: { kind: 'book' | 'people' | 'file' | 'code' | 'calendar' | 'pin' }) {
@@ -47,7 +48,54 @@ function Home() {
   </>;
 }
 function Pricing() {
-  return <div className="container page-content"><PageIntro eyebrow="Átlátható részletek" title="Tudd előre, mivel számolhatsz." text="80 tanóra. Személyes felkészülés. Egyértelmű képzési díj." /><div className="price-overview"><div><span className="eyebrow">Alapdíj</span><div className="big-price">3 500 <span>Ft / tanóra</span></div><p>Egy tanóra 45 perc.<br /><strong>80 × 3 500 Ft = 280 000 Ft</strong> a teljes képzés.</p><a href="/kurzusok" className="button">Kurzusok és jelentkezés <Arrow /></a></div><div><h2>A képzés része</h2><ul className="check-list"><li>20 személyes alkalom, alkalmanként 4 × 45 perc</li><li>Legfeljebb 24 fős csoport, két oktató</li><li>Gyakorlás és visszajelzés</li><li>Írásbeli és szóbeli felkészülés, próbaérettségi</li><li>Hozzáférés a közzétett órai anyagokhoz</li></ul></div></div><section className="pricing-section"><div className="eyebrow">Ha korábban döntesz</div><h2>Korai jelentkezési kedvezmények</h2><div className="pricing-options"><article className="pricing-option featured"><span className="discount-tag">−25%</span><h3>2026. november 15-ig</h3><p className="option-price">210 000 <span>Ft / teljes képzés</span></p><p>2 625 Ft / 45 perces tanóra</p><small>70 000 Ft kedvezmény az alapdíjból.</small></article><article className="pricing-option"><span className="discount-tag">−15%</span><h3>2026. december 15-ig</h3><p className="option-price">238 000 <span>Ft / teljes képzés</span></p><p>2 975 Ft / 45 perces tanóra</p><small>42 000 Ft kedvezmény az alapdíjból.</small></article></div></section><section className="pricing-section friend-discount"><div><div className="eyebrow">Együtt indulnátok?</div><h2>Hozd a barátodat is.</h2><p>Meghívott barátonként 5% kedvezményt kapsz. A meghívott barát maga is 5% kedvezményre jogosult.</p><p>Két meghívott baráttal neked 10%, nekik fejenként 5% jár. A jogosultságot a szervezők igazolják vissza.</p></div><div className="table-wrap"><table><caption>Baráti kedvezmény az alapdíjra számítva</caption><thead><tr><th>Kedvezmény</th><th>Tanóránként</th><th>Teljes képzés</th></tr></thead><tbody><tr><td>5% · egy barát</td><td>3 325 Ft</td><td>266 000 Ft</td></tr><tr><td>10% · két barát</td><td>3 150 Ft</td><td>252 000 Ft</td></tr></tbody></table></div></section><section className="pricing-section"><h2>Így adódnak össze</h2><div className="table-wrap combined-discounts"><table><caption>Példák a korai és baráti kedvezmény együttes használatára</caption><thead><tr><th>Kedvezmények</th><th>Összesen</th><th>Tanóránként</th><th>Teljes képzés</th></tr></thead><tbody><tr><td>25% korai + 5% baráti</td><td>30%</td><td>2 450 Ft</td><td>196 000 Ft</td></tr><tr><td>25% korai + 10% baráti</td><td>35%</td><td>2 275 Ft</td><td>182 000 Ft</td></tr><tr><td>15% korai + 5% baráti</td><td>20%</td><td>2 800 Ft</td><td>224 000 Ft</td></tr></tbody></table></div></section><div className="notice">A korai és baráti kedvezmények összeadódnak, összesen legfeljebb 35%-ig. Mindig a 280 000 Ft-os alapdíjból számolunk, nem egymás után vonjuk le a százalékokat. A baráti jogosultságot és a végleges díjat a szervezők igazolják vissza.</div><Placeholder>A fizetési ütemezést, a lemondási feltételeket és a laptopbérlés díját még egyeztetjük.</Placeholder></div>;
+  return <div className="container page-content pricing-page">
+    <PageIntro eyebrow="Árak és kedvezmények" title="Indulj kedvezménnyel." text="80 tanóra személyesen, két oktatóval. Az írásbelire és a szóbelire is felkészítünk." />
+    <div className="offer-grid">
+      <section className="offer-card offer-primary" aria-labelledby="early-offer-title">
+        <div className="offer-heading">
+          <div><h2 id="early-offer-title">Super Early Bird</h2><p>Jelentkezés <time dateTime="2026-11-15">2026. november 15-ig</time></p></div>
+          <strong className="offer-percent">−25%</strong>
+        </div>
+        <div className="offer-amount">
+          <p className="offer-original">Alapdíj: <s>280 000 Ft</s></p>
+          <p className="offer-price">210 000 <span>Ft</span></p>
+          <p className="offer-unit">a teljes, 80 tanórás képzés</p>
+        </div>
+        <p className="offer-saving">70 000 Ft-tal kevesebb</p>
+        <p className="offer-hourly"><s><span className="sr-only">Alap tanóradíj: </span>3 500 Ft</s> helyett <strong>2 625 Ft / tanóra</strong><span>Egy tanóra 45 perc.</span></p>
+        <a href="/kurzusok" className="button offer-cta">Kurzusok és jelentkezés <Arrow /></a>
+      </section>
+      <section className="offer-card offer-friends" aria-labelledby="friends-offer-title">
+        <div className="offer-heading">
+          <div><span className="eyebrow">Hozd a barátaidat is</span><h2 id="friends-offer-title">Együtt még kedvezőbb.</h2></div>
+          <div className="offer-percent offer-percent-max"><span>Akár</span><strong>−35%</strong></div>
+        </div>
+        <p className="offer-condition"><strong>November 15-ig, két hozott baráttal:</strong><br />25% korai + 10% baráti kedvezmény.</p>
+        <div className="offer-amount">
+          <p className="offer-original">Alapdíj: <s>280 000 Ft</s></p>
+          <p className="offer-price">182 000 <span>Ft</span></p>
+          <p className="offer-unit">a teljes képzés · 2 275 Ft / tanóra</p>
+        </div>
+        <p className="offer-saving">98 000 Ft megtakarítás</p>
+        <p className="offer-fineprint">A kedvezmények összeadódnak, legfeljebb 35%-ig. A baráti jogosultságot a szervezők igazolják vissza.</p>
+        <a href="#kedvezmenyek" className="text-link">A kedvezmények részletei <span aria-hidden="true">↓</span></a>
+      </section>
+    </div>
+    <section className="offer-later" aria-labelledby="later-offer-title">
+      <strong className="offer-later-percent">−15%</strong>
+      <div><h2 id="later-offer-title">Early Bird</h2><p><time dateTime="2026-11-16">2026. november 16.</time> – <time dateTime="2026-12-15">december 15.</time></p></div>
+      <div className="offer-later-price"><span className="sr-only">Alapdíj: </span><s>280 000 Ft</s><strong>238 000 Ft</strong><span>teljes képzés · 2 975 Ft / tanóra</span></div>
+      <p className="offer-later-saving">42 000 Ft<br /><span>megtakarítás</span></p>
+    </section>
+    <section className="pricing-included" aria-labelledby="included-title">
+      <div><span className="eyebrow">80 tanóra, személyesen</span><h2 id="included-title">A képzés része</h2><p>Kedvezmény nélkül 3 500 Ft / tanóra, összesen <strong>280 000 Ft</strong>. Egy tanóra 45 perc.</p></div>
+      <ul className="check-list"><li>20 személyes alkalom, alkalmanként 4 × 45 perc</li><li>Legfeljebb 24 fős csoport, két oktató</li><li>Feladatmegoldás és folyamatos visszajelzés</li><li>Próbaérettségik, javítás és próbaszóbelik</li><li>Tanulói portál és letölthető órai anyagok</li></ul>
+    </section>
+    <section id="kedvezmenyek" className="pricing-section friend-discount"><div><div className="eyebrow">Együtt indulnátok?</div><h2>Hozd a barátodat is.</h2><p>Meghívott barátonként 5% kedvezményt kapsz. A meghívott barát maga is 5% kedvezményre jogosult.</p><p>Két meghívott baráttal neked 10%, nekik fejenként 5% jár. A jogosultságot a szervezők igazolják vissza.</p></div><div className="table-wrap"><table><caption>Baráti kedvezmény az alapdíjra számítva</caption><thead><tr><th>Kedvezmény</th><th>Tanóránként</th><th>Teljes képzés</th></tr></thead><tbody><tr><td>5% · egy barát</td><td>3 325 Ft</td><td>266 000 Ft</td></tr><tr><td>10% · két barát</td><td>3 150 Ft</td><td>252 000 Ft</td></tr></tbody></table></div></section>
+    <section className="pricing-section"><h2>Így adódnak össze</h2><div className="table-wrap combined-discounts"><table><caption>Példák a korai és baráti kedvezmény együttes használatára</caption><thead><tr><th>Kedvezmények</th><th>Összesen</th><th>Tanóránként</th><th>Teljes képzés</th></tr></thead><tbody><tr><td>25% korai + 5% baráti</td><td>30%</td><td>2 450 Ft</td><td>196 000 Ft</td></tr><tr><td>25% korai + 10% baráti</td><td>35%</td><td>2 275 Ft</td><td>182 000 Ft</td></tr><tr><td>15% korai + 5% baráti</td><td>20%</td><td>2 800 Ft</td><td>224 000 Ft</td></tr></tbody></table></div></section>
+    <div className="notice">A korai és baráti kedvezmények összeadódnak, összesen legfeljebb 35%-ig. Mindig a 280 000 Ft-os alapdíjból számolunk, nem egymás után vonjuk le a százalékokat. A baráti jogosultságot és a végleges díjat a szervezők igazolják vissza.</div>
+    <Placeholder>A fizetési ütemezést, a lemondási feltételeket és a laptopbérlés díját még egyeztetjük.</Placeholder>
+  </div>;
 }
 function Teachers() {
   return <div className="container page-content"><PageIntro eyebrow="Akikkel együtt készülsz" title="Két nézőpont. Közös figyelem." text="Balázs és Peti együtt segítenek a tanteremben: tapasztalat, friss nézőpont és sok közös feladatmegoldás." /><div className="teacher-grid"><article className="teacher-profile"><div className="portrait-placeholder"><span>B.</span><small>Balázs portréja hamarosan</small></div><div className="teacher-bio"><span className="eyebrow">Szakmai tapasztalat</span><h2>Balázs</h2><p>20 év szoftverfejlesztési tapasztalattal és felnőttoktatási háttérrel érkezik a tanterembe. A feladatok mögötti gondolkodást és a gyakorlatban is használható megoldásokat hozza közelebb.</p></div></article><article className="teacher-profile"><div className="portrait-placeholder portrait-second"><span>P.</span><small>Peti portréja hamarosan</small></div><div className="teacher-bio"><span className="eyebrow">Közel a diákokhoz</span><h2>Peti</h2><p>Egyetemista, négy éve tart kiscsoportos korrepetálást. Jól ismeri azokat a kérdéseket és elakadásokat, amelyek tanulás közben előkerülnek, és segít lépésenként továbblépni.</p></div></article></div><div className="inline-cta"><div><h2>Mindketten ott vagyunk.</h2><p className="muted small">Legfeljebb 24 diákra két oktató figyel.</p></div><a href="/kurzusok" className="button">Megnézem a csoportokat <Arrow /></a></div></div>;
