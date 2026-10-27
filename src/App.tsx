@@ -3,6 +3,7 @@ import { pages } from './seo';
 import { Login, Portal, CoursesSection, ProgrammingInterestForm } from './Portal';
 import { ExamResources } from './ExamResources';
 import './pricing.css';
+import { DiscountBadge, PriceDisplay } from './PriceDisplay';
 
 export function Arrow({ diagonal = false }: { diagonal?: boolean }) { return <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6"><path d={diagonal ? 'M6 18 18 6M6 6h12v12' : 'M4 12h15M13 6l6 6-6 6'} /></svg>; }
 export function Icon({ kind }: { kind: 'book' | 'people' | 'file' | 'code' | 'calendar' | 'pin' }) {
@@ -54,38 +55,26 @@ function Pricing() {
       <section className="offer-card offer-primary" aria-labelledby="early-offer-title">
         <div className="offer-heading">
           <div><h2 id="early-offer-title">Super Early Bird</h2><p>Jelentkezés <time dateTime="2026-11-15">2026. november 15-ig</time></p></div>
-          <strong className="offer-percent">−25%</strong>
+          <DiscountBadge percent={25} />
         </div>
-        <div className="offer-amount">
-          <p className="offer-original">Alapdíj: <s>280 000 Ft</s></p>
-          <p className="offer-price">210 000 <span>Ft</span></p>
-          <p className="offer-unit">a teljes, 80 tanórás képzés</p>
-        </div>
-        <p className="offer-saving">70 000 Ft-tal kevesebb</p>
-        <p className="offer-hourly"><s><span className="sr-only">Alap tanóradíj: </span>3 500 Ft</s> helyett <strong>2 625 Ft / tanóra</strong><span>Egy tanóra 45 perc.</span></p>
+        <PriceDisplay total={210000} baseTotal={280000} perLesson={2625} lessonCount={80} />
         <a href="/kurzusok" className="button offer-cta">Kurzusok és jelentkezés <Arrow /></a>
       </section>
       <section className="offer-card offer-friends" aria-labelledby="friends-offer-title">
         <div className="offer-heading">
           <div><span className="eyebrow">Hozd a barátaidat is</span><h2 id="friends-offer-title">Együtt még kedvezőbb.</h2></div>
-          <div className="offer-percent offer-percent-max"><span>Akár</span><strong>−35%</strong></div>
+          <DiscountBadge percent={35} maximum />
         </div>
         <p className="offer-condition"><strong>November 15-ig, két hozott baráttal:</strong><br />25% korai + 10% baráti kedvezmény.</p>
-        <div className="offer-amount">
-          <p className="offer-original">Alapdíj: <s>280 000 Ft</s></p>
-          <p className="offer-price">182 000 <span>Ft</span></p>
-          <p className="offer-unit">a teljes képzés · 2 275 Ft / tanóra</p>
-        </div>
-        <p className="offer-saving">98 000 Ft megtakarítás</p>
+        <PriceDisplay total={182000} baseTotal={280000} perLesson={2275} lessonCount={80} />
         <p className="offer-fineprint">A kedvezmények összeadódnak, legfeljebb 35%-ig. A baráti jogosultságot a szervezők igazolják vissza.</p>
         <a href="#kedvezmenyek" className="text-link">A kedvezmények részletei <span aria-hidden="true">↓</span></a>
       </section>
     </div>
     <section className="offer-later" aria-labelledby="later-offer-title">
-      <strong className="offer-later-percent">−15%</strong>
+      <DiscountBadge percent={15} />
       <div><h2 id="later-offer-title">Early Bird</h2><p><time dateTime="2026-11-16">2026. november 16.</time> – <time dateTime="2026-12-15">december 15.</time></p></div>
-      <div className="offer-later-price"><span className="sr-only">Alapdíj: </span><s>280 000 Ft</s><strong>238 000 Ft</strong><span>teljes képzés · 2 975 Ft / tanóra</span></div>
-      <p className="offer-later-saving">42 000 Ft<br /><span>megtakarítás</span></p>
+      <PriceDisplay total={238000} baseTotal={280000} perLesson={2975} compact />
     </section>
     <section className="pricing-included" aria-labelledby="included-title">
       <div><span className="eyebrow">80 tanóra, személyesen</span><h2 id="included-title">A képzés része</h2><p>Kedvezmény nélkül 3 500 Ft / tanóra, összesen <strong>280 000 Ft</strong>. Egy tanóra 45 perc.</p></div>

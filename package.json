@@ -8,7 +8,7 @@
     "check": "tsc --noEmit",
     "build": "npm run check && vite build && vite build --ssr src/entry-server.tsx --outDir .ssr && node scripts/prerender.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --test tests/seo.test.mjs",
+    "test": "node --test tests/seo.test.mjs tests/pricing.test.mjs",
     "test:proxy": "node --test tests/proxy.test.mjs"
   },
   "dependencies": {

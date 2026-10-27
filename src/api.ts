@@ -28,7 +28,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 export const json = (method: string, body: unknown): RequestInit => ({ method, body: JSON.stringify(body) });
 export const errorText = (error: unknown) => error instanceof Error ? error.message : 'Váratlan hiba történt.';
-export const formatMoney = (value: number) => `${new Intl.NumberFormat('hu-HU', { maximumFractionDigits: 2 }).format(value)} Ft`;
+export const formatMoney = (value: number) => `${new Intl.NumberFormat('hu-HU', { maximumFractionDigits: 2, useGrouping: true }).format(value)} Ft`;
 export const formatCourseDate = (date: string) => {
   const parsed = new Date(`${date}T12:00:00Z`);
   return Number.isNaN(parsed.getTime()) ? date : new Intl.DateTimeFormat('hu-HU', { dateStyle: 'long', timeZone: 'UTC' }).format(parsed);

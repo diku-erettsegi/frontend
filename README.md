@@ -1,6 +1,6 @@
 # diku. – React frontend
 
-Magyar nyelvű digitális kultúra emelt érettségi felkészítő, publikus tájékoztató oldalakkal, jelentkezési űrlappal, tanulói és adminisztrációs felülettel. Az alkalmazás helyben futtatható, és 2026. október 24-én a Rackforest VPS első teljes telepítése is sikeres. A publikus domain bekötését a felhasználó későbbre halasztotta. Az automatizálás és ellenőrzéseinek irányadó, folyamatosan frissített állapota: [DEPLOY-STATUS](../database/docs/DEPLOY-STATUS.md).
+Magyar nyelvű digitális kultúra emelt érettségi felkészítő, publikus tájékoztató oldalakkal, jelentkezési űrlappal, tanulói és adminisztrációs felülettel. Az alkalmazás helyben futtatható, és a Rackforest VPS-en, Cloudflare Tunnelen keresztül élesben is elérhető. Az automatizálás és ellenőrzéseinek irányadó, folyamatosan frissített állapota: [DEPLOY-STATUS](../database/docs/DEPLOY-STATUS.md).
 
 ## Indítás
 
@@ -20,6 +20,14 @@ npm run preview
 ```
 
 A build TypeScript ellenőrzést, kliensbuildet és szerveroldali előrenderelést végez. A `dist/` önállóan kiszolgálható Nginx által. A `preview` Vite szerver csak fejlesztői ellenőrzésre szolgál; az éles 404/átirányítás/headerek ellenőrzésére a Docker image szükséges.
+
+## Egységes ármegjelenítés – 2026. október 27.
+
+Az Árak oldal, a `/kurzusok` és `/jelentkezes` kurzuskártyái, az űrlap élő díjösszesítője, a sikeres beküldés visszajelzése és az admin jelentkezésrészlete közös `src/PriceDisplay.tsx` komponenst használ. `DiscountBadge`: piros százalékjelzés; `PriceDisplay`: áthúzott alapdíj, nagy piros végösszeg, megtakarítás és tanóradíj. Közös stílus: `src/price-display.css`; oldalelrendezés: `pricing.css`, kurzus/űrlapkeret: `portal.css`. Új árblokkhoz ezt használd, ne másold le a markupot. A kurzuskártyákon az ár az időpont alatt, a részletes adatok előtt szerepel.
+
+A komponens kapott összegeket jelenít meg, nem határoz meg kedvezményszabályt. Teljes áron nincs áthúzás, nulla kedvezményjelzés vagy megtakarítás. Mentett díjhoz kizárólag az adott rekord értékei használhatók; a publikus beküldési válasz nem tartalmaz alapdíjat, ezért ott nem találunk ki eredeti árat/megtakarítást. A végösszeg, tanóradíj és a visszakapott százalék így is kiemelt. A baráti előkalkuláció és a backend 35%-os plafonja, API, űrlapengedélyezés és adatok változatlanok. Az admin listanézet tömör marad, a megnyitott rekord használja a közös árblokk kompakt változatát.
+
+Igazolt: TypeScript/kliens/SSR build, 18 útvonal + 404, 9/9 teszt (6 SEO + 3 ármegjelenítési regresszió). Valódi helyi API-val két csoport, csoportválasztás, 0/1/2/10 barát: 210/196/182/182 ezer Ft; 35%-os plafon. Kurzus és űrlap 390/320 px, Árak 820/320 px, asztali nézet kilógás és konzolhiba nélkül. Nem küldtünk be jelentkezést; a visszajelzést és történeti díjakat komponensszintű teszt ellenőrzi. A helyi preview aloldalait záró perjellel nyisd meg (`/kurzusok/`, `/jelentkezes/`, `/arak/`), hogy az előrenderelt HTML töltődjön be.
 
 ## Útvonalak és tartalom
 

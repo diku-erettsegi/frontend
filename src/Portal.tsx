@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { api, ApiError, errorText, formatCourseDate, formatDate, formatMoney, json, resetCsrf, safeMeetingUrl } from './api';
 import { Arrow, Icon } from './App';
+import { DiscountBadge, PriceDisplay } from './PriceDisplay';
 import type { Application, ApplicationReceipt, ApplicationStatus, Audit, Course, InterestStatus, Lesson, ProgrammingInterest, ProgrammingInterestReceipt, Role, User } from './types';
 import './portal.css';
 
@@ -45,9 +46,14 @@ function CourseQuote({ course, friendCount = 0, referredByFriend = false }: { co
   const total = Math.round(course.price.baseTotal * (100 - discountPercent) / 100);
   const perLesson = total / (course.sessions * course.lessonsPerSession);
   return <div className="course-quote">
-    <div><strong>{formatMoney(total)}</strong><span>teljes képzési díj · {formatMoney(perLesson)} / tanóra</span></div>
-    {discountPercent > 0 && <p><del>{formatMoney(course.price.baseTotal)}</del> <span className="course-discount">−{discountPercent}%</span>{periodPercent > 0 && <>Korai jelentkezés: {periodPercent}%{course.price.validUntil && <> · {formatCourseDate(course.price.validUntil)} napjáig</>}</>}{friendPercent > 0 && <><br />Baráti kedvezmény: {friendPercent}% · az összes kedvezmény legfeljebb 35%.</>}</p>}
-    {!discountPercent && <p>Alapár · {course.sessions * course.lessonsPerSession} tanóra</p>}
+    <div className="course-offer-heading">
+      <div><strong>{discountPercent > 0 ? friendPercent > 0 ? 'Kedvezményed együtt' : course.price.discountLabel : 'Teljes képzési díj'}</strong>
+        {periodPercent > 0 && course.price.validUntil && <p>Jelentkezés {formatCourseDate(course.price.validUntil)} napjáig</p>}
+      </div>
+      <DiscountBadge percent={discountPercent} />
+    </div>
+    <PriceDisplay total={total} baseTotal={course.price.baseTotal} perLesson={perLesson} lessonCount={course.sessions * course.lessonsPerSession} />
+    {friendPercent > 0 && <p className="course-offer-note">{periodPercent > 0 && <>{periodPercent}% korai + </>}{friendPercent}% baráti kedvezmény, összesen legfeljebb 35%. A baráti jogosultságot egyeztetjük.</p>}
   </div>;
 }
 
@@ -65,8 +71,8 @@ export function CoursesSection() {
       {courses.length ? courses.map(course => <article className={`course-card${selectedCourseId === course.id ? ' is-selected' : ''}`} key={course.id}>
         <span className="eyebrow">Emelt digitális kultúra</span><h2>{course.name}</h2>
         <p className="course-time">Szombatonként · {courseTime(course)}</p>
-        <dl className="course-details"><dt>Indulás</dt><dd>{formatCourseDate(course.startDate)}</dd><dt>Időtartam</dt><dd>{course.sessions} alkalom × {course.lessonsPerSession} tanóra</dd><dt>Csoportlétszám</dt><dd>Legfeljebb {course.capacity} fő</dd></dl>
         <CourseQuote course={course} />
+        <dl className="course-details"><dt>Indulás</dt><dd>{formatCourseDate(course.startDate)}</dd><dt>Időtartam</dt><dd>{course.sessions} alkalom × {course.lessonsPerSession} tanóra</dd><dt>Csoportlétszám</dt><dd>Legfeljebb {course.capacity} fő</dd></dl>
         <p className="small muted">{course.availableSeats > 0 ? `${course.availableSeats} szabad hely az elfogadott jelentkezések alapján.` : 'A csoport jelenleg betelt.'}</p>
         <button type="button" className={`button ${selectedCourseId === course.id ? '' : 'button-outline'}`} disabled={!course.registrationOpen || course.availableSeats === 0} aria-pressed={selectedCourseId === course.id} onClick={() => choose(course.id)}>{selectedCourseId === course.id ? 'Kiválasztott csoport' : course.registrationOpen && course.availableSeats > 0 ? 'Ezt a csoportot választom' : 'Jelenleg nem jelentkezhető'} <Arrow /></button>
       </article>) : ['Délelőtti csoport', 'Délutáni csoport'].map((name, index) => <article className="course-card" key={name}>
@@ -110,7 +116,7 @@ export function ApplicationForm({ courses: suppliedCourses, selectedCourse, onCo
   }
   if (receipt) return <div className="success-panel" role="status"><span className="success-icon">✓</span><h2>Megérkezett a jelentkezésed.</h2>
     <p>A jelentkezést rögzítettük. A megadott elérhetőségeid egyikén egyeztetjük a részleteket.</p>
-    {receipt.quotedTotal != null && <div className="saved-quote"><strong>Rögzített képzési díj: {formatMoney(receipt.quotedTotal)}</strong>{receipt.courseName && <p>{receipt.courseName}</p>}{receipt.quotedPerLesson != null && <p>{formatMoney(receipt.quotedPerLesson)} / tanóra{receipt.discountLabel ? ` · ${receipt.discountLabel}` : ''}</p>}<p className="small">A baráti kedvezmény jogosultságát és az esetleges laptopbérlést külön egyeztetjük.</p></div>}
+    {receipt.quotedTotal != null && <div className="saved-quote"><div className="course-offer-heading"><div><strong>Rögzített képzési díj</strong>{receipt.courseName && <p>{receipt.courseName}</p>}</div><DiscountBadge percent={receipt.discountPercent ?? 0} /></div><PriceDisplay total={receipt.quotedTotal} perLesson={receipt.quotedPerLesson} />{receipt.discountLabel && <p className="course-offer-note">{receipt.discountLabel}</p>}<p className="small">A baráti kedvezmény jogosultságát és az esetleges laptopbérlést külön egyeztetjük.</p></div>}
     <button type="button" className="button button-outline" onClick={() => { setReceipt(null); setFriendCount(0); setReferredByFriend(false); submission.reset(); }}>Új jelentkezés</button>
   </div>;
   return <form method="post" className="form-panel application-form" onSubmit={submit}>
@@ -236,7 +242,7 @@ function ApplicationsAdmin() {
         <dt>Jelentkezés időpontja</dt><dd><time dateTime={selected.createdAt}>{formatDate(selected.createdAt)}</time> <small className="muted">(budapesti idő, nem módosítható)</small></dd>
         <dt>Csoport</dt><dd>{selected.courseName || 'Korábbi jelentkezés – nincs csoporthoz rendelve'}</dd>
         <dt>E-mail</dt><dd><a href={`mailto:${selected.email}`}>{selected.email}</a></dd><dt>Telefon</dt><dd>{selected.phone}</dd><dt>Szülő / gondviselő</dt><dd>{selected.parentName || 'Nincs megadva'}</dd>
-        <dt>Rögzített díj</dt><dd>{selected.quotedTotal != null ? <><strong>{formatMoney(selected.quotedTotal)}</strong>{selected.quotedPerLesson != null && <> · {formatMoney(selected.quotedPerLesson)} / tanóra</>}{selected.baseTotal != null && <div className="small muted">Alapár: {formatMoney(selected.baseTotal)}{selected.discountPercent != null && ` · összes kedvezmény: ${selected.discountPercent}%`}{selected.discountLabel && ` · ${selected.discountLabel}`}</div>}{selected.periodDiscountPercent != null && <div className="small muted">Korai kedvezmény: {selected.periodDiscountPercent}% · baráti kedvezmény: {selected.friendDiscountPercent ?? 0}% · összesen legfeljebb 35%.</div>}</> : 'Korábbi jelentkezés – nincs mentett árajánlat'}</dd>
+        <dt>Rögzített díj</dt><dd>{selected.quotedTotal != null ? <><PriceDisplay total={selected.quotedTotal} baseTotal={selected.baseTotal} perLesson={selected.quotedPerLesson} compact />{selected.discountPercent != null && <div className="small muted">Összes kedvezmény: {selected.discountPercent}%{selected.discountLabel && ` · ${selected.discountLabel}`}</div>}{selected.periodDiscountPercent != null && <div className="small muted">Korai kedvezmény: {selected.periodDiscountPercent}% · baráti kedvezmény: {selected.friendDiscountPercent ?? 0}% · összesen legfeljebb 35%.</div>}</> : 'Korábbi jelentkezés – nincs mentett árajánlat'}</dd>
         <dt>Baráti kedvezmény</dt><dd>{selected.friendCount > 0 || selected.referredByFriend ? <>{selected.friendCount > 0 && <>{selected.friendCount} barátot hoz. </>}{selected.referredByFriend && <>Barát ajánlásával érkezik. </>}<div className="small muted">A jogosultságot egyeztetni kell. A rögzített kedvezmény és díj a beküldéskori számítást őrzi.</div></> : 'Nem igényelte'}</dd>
         {selected.referralNote && <><dt>Baráti megjegyzés</dt><dd className="preserve-lines">{selected.referralNote}</dd></>}
         <dt>Laptopbérlés</dt><dd>{selected.laptopRentalRequested ? 'Igényli – díj és rendelkezésre állás egyeztetendő' : 'Nem igényli'}</dd>
