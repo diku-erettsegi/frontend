@@ -14,3 +14,5 @@
 - Ellenőrzés módosítás után: `npm run build`, majd `npm test`; releváns mobil/asztali és API folyamat ellenőrzés. Dokumentáld a valós ellenőrzési korlátokat.
 - Nginx valódi404/relative301/CSP/tunnel-proxy szerződés lényeges. Az éles frontend és backend kizárólag belső Docker-hálózaton legyen.
 - A VPS első telepítése megtörtént; az aktuális automatizálási állapot a `../database/docs/DEPLOY-STATUS.md` fájlban van. A domain névszerverváltását a felhasználó későbbre halasztotta. A munkamenetben adott deploy/push felhatalmazást vedd figyelembe; új, azon kívüli publikálást külön egyeztess.
+
+- 2026-11-03: a novemberi válaszok irányadóak (database/docs/LAUNCH-ANSWERS-2026-11.md). Full payment kell a korai kedvezményhez; laptop 30000 Ft a teljes képzésre; 20 dátum január9–május29, május15 nélkül, utolsó kettő szóbeli. Új admin komponensek EnrollmentAdmin.tsx-ben. Egymás melletti szerkesztőelemek React key-je legyen külön névtérben (workflow-/finance-/enrollment-), különben mentés után elavult panel maradhat a DOM-ban. A public űrlapkapcsoló továbbra külön aktiválási lépés.

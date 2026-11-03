@@ -1,6 +1,14 @@
 # diku. – React frontend
 
+## Novemberi válaszok megvalósítása
+
+Új adminrészek: Csoportok és naptár; jelentkezésenként szerződés, befizetések, igazolt kedvezmény, csoportcsere; felhasználónként elfogadott jelentkezéshez kötött tanulói hozzáférés. `EnrollmentAdmin.tsx` kezeli az új szervezői komponenseket. A `Portal.tsx` űrlapja életkori kategóriát, kiskorúnál szülői nyilatkozatot és betelt csoportnál várólistás beleegyezést kér. Az órák csoporthoz rendelhetők. A közös piros ármegjelenítés megmaradt; befizetési határidő, feltételes ajánlat, 30000 Ft teljes képzéses laptopdíj külön látszik. A jóváhagyott 20 dátum az API-ból jön. Cégadatok, helyszín, kapcsolat, GYIK és fizetési tájékoztatás frissült; hiányos jogi szöveg továbbra is piszkozat/noindex. A production űrlap kapcsolója nem változott.
+
+Az alábbi dátumozott leírások a korábbi állapot történetét is tartalmazzák.
+
 Magyar nyelvű digitális kultúra emelt érettségi felkészítő, publikus tájékoztató oldalakkal, jelentkezési űrlappal, tanulói és adminisztrációs felülettel. Az alkalmazás helyben futtatható, és a Rackforest VPS-en, Cloudflare Tunnelen keresztül élesben is elérhető. Az automatizálás és ellenőrzéseinek irányadó, folyamatosan frissített állapota: [DEPLOY-STATUS](../database/docs/DEPLOY-STATUS.md).
+
+2026-11-03 ellenőrzés: TypeScript + Vite kliens/SSR + 18 route és 404; 9/9 SEO/ármegjelenítési teszt. Valódi API-s smoke és böngészős szülői jelentkezés, laptopdíj, pénzügyi igazolás, elfogadás és naptármentés sikeres. A mentés utáni elavult panelt okozó két azonos React key javítva és böngészőben újrapróbálva. Mobil 390px: árak és jelentkezés oldal kilógás nélkül.
 
 ## Indítás
 
