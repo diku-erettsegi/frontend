@@ -1,5 +1,11 @@
 # diku. – React frontend
 
+## Tantermi felkészítő SEO – 2026. november 6.
+
+A főoldal H1-je: „Tantermi digitális kultúra felkészítő Budapesten.” A célkifejezés a főoldali bemutatkozásban és a kurzusokhoz vezető záró szövegben is megjelenik, továbbá a közös láblécben. A kapcsolódó kurzus/jelentkezés, árak, oktatásmenet, helyszín, GYIK és szülői/diák oldalak rövid bevezetői és oldalanként eltérő metaadatai pontosítva. Az Open Graph és a kezdőlapi WebSite leírás a közös SEO-adatforrást követi. Nincs új útvonal, függőség vagy keresési helyezésre vonatkozó ígéret; a képek alt szövege továbbra is a valódi stockillusztrációt írja le. A meglévő CSS az új főcímet asztali és mobil nézetben is kezeli.
+
+Ellenőrzés: `npm run build` (TypeScript, kliens/SSR, 18 oldal + 404), `npm test` 9/9 PASS. Helyi Vite preview főoldal: asztali, 390 és 320 px beállított szélesség, nincs vízszintes kilógás vagy konzolhiba. A meglévő URL/canonical/noindex szerződés, árak, API és űrlapengedélyezés változatlan. Az éles kiadás eredménye a database/docs/DEPLOY-STATUS.md-ben követhető.
+
 ## Novemberi válaszok megvalósítása
 
 Új adminrészek: Csoportok és naptár; jelentkezésenként szerződés, befizetések, igazolt kedvezmény, csoportcsere; felhasználónként elfogadott jelentkezéshez kötött tanulói hozzáférés. `EnrollmentAdmin.tsx` kezeli az új szervezői komponenseket. A `Portal.tsx` űrlapja életkori kategóriát, kiskorúnál szülői nyilatkozatot és betelt csoportnál várólistás beleegyezést kér. Az órák csoporthoz rendelhetők. A közös piros ármegjelenítés megmaradt; befizetési határidő, feltételes ajánlat, 30000 Ft teljes képzéses laptopdíj külön látszik. A jóváhagyott 20 dátum az API-ból jön. Cégadatok, helyszín, kapcsolat, GYIK és fizetési tájékoztatás frissült; hiányos jogi szöveg továbbra is piszkozat/noindex. A production űrlap kapcsolója nem változott.
