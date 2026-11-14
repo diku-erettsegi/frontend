@@ -84,6 +84,13 @@ test('Nginx discards spoofed forwarding headers and preserves trusted API/static
     assert.equal((await fetch(`${base}/`)).status, 200);
     const redirect = await fetch(`${base}/kurzusok/`, { redirect: 'manual' });
     assert.equal(redirect.status, 301); assert.equal(redirect.headers.get('location'), '/kurzusok');
+    const terms = await fetch(`${base}/reszveteli-feltetelek`);
+    assert.equal(terms.status, 200);
+    assert.equal(terms.headers.get('x-robots-tag'), 'noindex, nofollow');
+    assert.match(await terms.text(), /Jelentkezési és részvételi tudnivalók/);
+    const termsRedirect = await fetch(`${base}/reszveteli-feltetelek/index.html`, { redirect: 'manual' });
+    assert.equal(termsRedirect.status, 301);
+    assert.equal(termsRedirect.headers.get('location'), '/reszveteli-feltetelek');
     assert.equal((await fetch(`${base}/nonexistent-proxy-test-page`)).status, 404);
     assert.equal((await fetch(`${base}/admin`)).headers.get('cache-control'), 'no-store');
   } finally {

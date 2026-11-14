@@ -1,4 +1,16 @@
-# diku. – React frontend
+# diku-erettsegi.hu – React frontend
+
+## Jelentkezési indulás – 2026. november 13.
+
+Az új válaszok alapján a jelentkezés kötelezettség nélküli szándékjelzés; írásbeli szerződés és legalább 20% igazolt előleg után fogadható el. Részletfizetés: 20% előleg után legfeljebb 4 egyenlő havi részlet. Korai kedvezményhez továbbra is teljes, határidős befizetés kell. A laptop 30 000 Ft / teljes képzés, a kezdéskor fizetendő, csak helyszíni órai használatra. Visszalépő vagy nem fizető barát után nem jár kedvezmény. A public checkbox a jelentkezésnél tájékoztató-megismerés; az ízelítőnél külön egyszeri linkküldési és adatkezelési hozzájárulás. Nincs automatikus levelezés.
+
+`LegalPages.tsx` kezeli a konkrét adatkezelési, impresszum- és részvételi tájékoztatást. Új útvonal: `/reszveteli-feltetelek`, bekötve a SEO, előrenderelés és Nginx szabályok közé (19 oldal + 404). A jogi oldalak noindex jelölése szerkesztési piszkozatot nem jelent. A production űrlap engedélyezése továbbra is GitHub `APPLICATIONS_ENABLED=true` buildváltozóval történik; a tényleges éles állapotot a közös DEPLOY-STATUS dokumentálja.
+
+Admin: `WITHDRAWN` (Visszavont) állapot, lezárási időpontok és az API-ból kapott `minimumAdvanceTotal` előlegküszöb. A szerver a pénzügyi és adatmegőrzési szabályok forrása; a frontend nem végez törlést. A tájékoztató változata a jelentkezés részletein látszik. Ízelítőkérésnél külön, megerősítést kérő visszavonás/adattörlés gomb hívja a jogosultság- és CSRF-védett DELETE végpontot.
+
+Megjelenés: pont nélküli diku logó `erettsegi.hu` aláírással, kék/piros hangsúlyok, kódbetétek, két új helyi Pexels WebP (összesen 102 840 bájt), friss Balázs-bemutatkozás 25+ év oktatói tapasztalattal. A felhasználó kérésére nincs látható stock-képaláírás; az alt szöveg pontos, a forrás és licenc a `../database/docs/IMAGE-ASSETS.md` fájlban követhető. Oktatói portré nincs kitalálva. A változás nem vezet be harmadik féltől futásidejű képet, fontot vagy követőkódot.
+
+Ellenőrzés: `VITE_APPLICATIONS_ENABLED=true npm run build` sikeres (TypeScript, kliens/SSR, 19 oldal + 404); `npm test` 10/10; `npm run test:proxy` 1/1 valódi izolált Nginx-konténerrel. Az új jogi útvonal 200/noindex és index.html → canonical 301 viselkedése ellenőrzött. A böngészős/fullstack és éles eredményt a közös HANDOFF/DEPLOY-STATUS rögzíti. Az alábbi korábbi bejegyzések történetiek.
 
 ## Tantermi felkészítő SEO – 2026. november 6.
 

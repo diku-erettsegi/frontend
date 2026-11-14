@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-const paths = ['/', '/kurzusok', '/szuloknek', '/diakoknak', '/erettsegi-feladatsorok', '/programozas-izelito', '/jelentkezes', '/oktatas-menete', '/oktatok', '/arak', '/gyik', '/helyszin', '/kapcsolat', '/adatkezeles', '/impresszum', '/belepes', '/tanulo', '/admin'];
+const paths = ['/', '/kurzusok', '/szuloknek', '/diakoknak', '/erettsegi-feladatsorok', '/programozas-izelito', '/jelentkezes', '/oktatas-menete', '/oktatok', '/arak', '/gyik', '/helyszin', '/kapcsolat', '/adatkezeles', '/impresszum', '/reszveteli-feltetelek', '/belepes', '/tanulo', '/admin'];
 test('Every route has prerendered body, one H1, unique title and canonical URL', async () => {
   const titles = new Set();
   for (const path of paths) {
@@ -16,9 +16,9 @@ test('Every route has prerendered body, one H1, unique title and canonical URL',
     assert.ok(!html.includes('<!--app-->'), path);
   }
 });
-test('Private routes and legal drafts stay outside search indexes', async () => {
+test('Private routes and legal information stay outside search indexes', async () => {
   const sitemap = await readFile('dist/sitemap.xml', 'utf8');
-  for (const path of ['/belepes', '/admin', '/tanulo', '/adatkezeles', '/impresszum', '/programozas-izelito']) {
+  for (const path of ['/belepes', '/admin', '/tanulo', '/adatkezeles', '/impresszum', '/reszveteli-feltetelek', '/programozas-izelito']) {
     const html = await readFile(`dist${path}/index.html`, 'utf8');
     assert.ok(html.includes('noindex, nofollow'), path); assert.ok(!sitemap.includes(path), path);
   }
@@ -46,11 +46,27 @@ test('Exam downloads link to the official publisher and identify file types', as
   assert.ok(html.includes('Javítási útmutató · PDF'));
   assert.ok(html.includes('Forrásfájlok · ZIP'));
 });
-test('Public stock photos are local, credited, and explicitly illustrative', async () => {
+test('Public photos are local with accurate stock alt text and no invented participant claim', async () => {
   const html = await readFile('dist/index.html', 'utf8');
   assert.ok(html.includes('/images/stock-tantermi-tanulas.webp'));
   assert.ok(html.includes('/images/stock-kozos-feladatmegoldas.webp'));
-  assert.ok(html.includes('Stockillusztráció'));
-  assert.ok(html.includes('Ivan S')); assert.ok(html.includes('cottonbro studio'));
+  assert.ok(html.includes('/images/stock-tanulopar.webp'));
+  assert.ok(html.includes('/images/stock-kozos-gyakorlas.webp'));
+  assert.ok(html.includes('alt="Stockfotó:'));
+  assert.ok(!html.includes('Stockillusztráció'));
   assert.ok(!html.includes('src="https://'));
+});
+test('Registration distinguishes intent from contract and keeps taster consent separate', async () => {
+  const application = await readFile('dist/jelentkezes/index.html', 'utf8');
+  assert.ok(application.includes('kötelezettség nélküli jelentkezési szándék'));
+  assert.ok(application.includes('href="/reszveteli-feltetelek"'));
+  assert.match(application, /<input(?=[^>]*name="privacy")(?=[^>]*required)[^>]*>/);
+  const home = await readFile('dist/index.html', 'utf8');
+  assert.ok(home.includes('Kérem az ízelítő linkjét e-mailben'));
+  assert.ok(home.includes('Kérésemet bármikor visszavonhatom'));
+  assert.ok(home.includes('16 éves kor alatt'));
+  const privacy = await readFile('dist/adatkezeles/index.html', 'utf8');
+  assert.ok(privacy.includes('launch-2026-11-13'));
+  assert.ok(privacy.includes('programming-preview-2026-11-13'));
+  assert.ok(!privacy.includes('Előkészítés alatt álló tájékoztató'));
 });

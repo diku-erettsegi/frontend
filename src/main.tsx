@@ -3,6 +3,7 @@ import { App } from './App';
 import { pages, origin } from './seo';
 import './fonts.css';
 import './styles.css';
+import './launch.css';
 const path = window.location.pathname.replace(/\/$/, '') || '/';
 const root = document.getElementById('root')!;
 const app = <App path={path} />;
@@ -11,7 +12,7 @@ if (root.children.length > 0) hydrateRoot(root, app); else createRoot(root).rend
 // Vite development serves a single shell; production metadata is already prerendered.
 if (import.meta.env.DEV) {
   const page = pages[path];
-  document.title = page?.title ?? 'Az oldal nem található | diku.';
+  document.title = page?.title ?? 'Az oldal nem található | diku-erettsegi.hu';
   const description = document.createElement('meta'); description.name = 'description'; description.content = page?.description ?? ''; document.head.append(description);
   const canonical = document.createElement('link'); canonical.rel = 'canonical'; canonical.href = `${origin}${path === '/' ? '' : path}`; document.head.append(canonical);
   const robots = document.createElement('meta'); robots.name = 'robots'; robots.content = 'noindex, nofollow'; document.head.append(robots);

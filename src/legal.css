@@ -1,0 +1,10 @@
+.legal-page { max-width: 900px; }
+.legal-page h2 { margin-top: 2.5rem; font-size: clamp(1.35rem, 3vw, 1.8rem); }
+.legal-page h3 { margin-top: 1.75rem; }
+.legal-page p, .legal-page li { line-height: 1.8; overflow-wrap: anywhere; }
+.legal-page p + p { margin-top: 1rem; }
+.legal-page ul { padding-left: 1.3rem; }
+.legal-page li + li { margin-top: 1rem; }
+.legal-page a { text-underline-offset: .2em; }
+.legal-page .record-details { margin: 2rem 0; }
+.legal-page .related-links { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #d7ddd9; }

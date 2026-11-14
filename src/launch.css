@@ -1,0 +1,63 @@
+/* November launch: preserve the quiet classroom layout, with blue/red accents. */
+:root { --blue: #315f9b; --blue-soft: #eaf0fa; --red: #b94538; --red-soft: #fbefeb; }
+.brand { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; flex-shrink: 0; }
+.brand .brand-name { color: var(--ink); font-size: 43px; letter-spacing: -3px; line-height: .95; }
+.brand .brand-domain { color: var(--blue); font-size: 10px; font-weight: 650; letter-spacing: .08em; line-height: 1.6; }
+.navigation > a[aria-current=page]::after { background: var(--blue); }
+.navigation .nav-cta { background: var(--blue); }
+.navigation .nav-cta:hover { background: #234a7c; }
+.photo-hero h1 em { color: var(--blue); }
+.photo-hero .hero-note .tiny-dot { background: var(--red); }
+.photo-sticker { background: var(--red-soft); border-color: #eac9c1; bottom: 4px; }
+.photo-sticker svg { color: var(--red); }
+.code-note { margin-top: 28px; padding: 20px 24px; max-width: 360px; border-radius: 9px; background: #233f3b; color: #f4f4e9; box-shadow: 0 8px 25px #253a3310; }
+.code-note-label { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: .15em; color: #c8d7ca; margin-bottom: 12px; }
+.code-note code { font-family: Consolas, 'Courier New', monospace; font-size: 17px; line-height: 1.75; }
+.code-note code span { color: #ffbdab; }
+.code-note code b { color: #d7edb9; font-weight: 400; }
+.code-note-blue { background: #24496f; }
+.photo-hero-visual > .code-note { position: absolute; right: -12px; top: 20px; margin: 0; transform: rotate(3deg); padding: 15px 19px; }
+.photo-hero-visual > .code-note code { font-size: 12px; }
+.photo-hero-visual > .code-note .code-note-label { font-size: 7px; margin-bottom: 6px; }
+.audience-card { overflow: hidden; border-color: #d8e1ef; background: #f5f8fd; }
+.audience-card:nth-child(2) { border-color: #efd8d2; background: #fff8f5; }
+.audience-card > img { display: block; width: calc(100% + 76px); max-width: none; margin: -35px -38px 28px; aspect-ratio: 2.1; height: auto; object-fit: cover; }
+.audience-card:first-child .eyebrow, .audience-card:first-child .text-link { color: var(--blue); }
+.audience-card:nth-child(2) .eyebrow, .audience-card:nth-child(2) .text-link { color: var(--red); }
+.topic:nth-child(2) { background: var(--blue-soft); border-color: #d7e1f1; }
+.topic:nth-child(2) .topic-top { color: var(--blue); }
+.topic:nth-child(4) { background: var(--red-soft); border-color: #eed8d2; }
+.topic:nth-child(4) .topic-top { color: var(--red); }
+.taster-section { background: #eaf0f8; }
+.taster-section > div > p { color: #50657d; }
+.taster-section .form-panel { border-color: #d3dfed; }
+.teacher-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+.teacher-bio p + p { margin-top: 14px; }
+.teacher-profile:first-child .portrait-placeholder { background: var(--blue-soft); color: var(--blue); }
+.teacher-profile:nth-child(2) .portrait-placeholder { background: var(--red-soft); color: var(--red); }
+.audience-answers + .code-note { max-width: none; }
+.status-withdrawn { background: #f0ece8; color: #725d4a; }
+.footer-bottom > div { flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .teacher-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .audience-card > img { width: calc(100% + 56px); margin: -28px -28px 24px; }
+  .photo-hero-visual > .code-note { right: -8px; top: 18px; padding: 12px; }
+  .photo-hero-visual > .code-note code { font-size: 10px; }
+}
+@media (max-width: 640px) {
+  .brand .brand-name { font-size: 35px; }
+  .brand .brand-domain { font-size: 8px; }
+  .photo-hero-visual > .code-note { right: 10px; top: 12px; }
+  .photo-sticker { bottom: -7px; }
+  .audience-card > img { width: calc(100% + 54px); margin: -27px -27px 23px; }
+  .teacher-grid { grid-template-columns: 1fr; }
+  .teacher-profile { grid-template-columns: 90px minmax(0, 1fr); gap: 18px; }
+  .teacher-bio .eyebrow { line-height: 1.7; }
+  .code-note { padding: 18px 20px; }
+  .code-note code { font-size: 15px; }
+  .footer-bottom > div { gap: 12px 19px; }
+}
+
+.interest-delete { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 18px; }
+.interest-delete p { margin-bottom: 14px; font-size: 13px; }
+.interest-delete .text-button + .text-button { margin-left: 24px; }

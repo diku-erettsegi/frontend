@@ -55,7 +55,7 @@ function CourseQuote({ course, friendCount = 0, referredByFriend = false }: { co
       <DiscountBadge percent={discountPercent} />
     </div>
     <PriceDisplay total={total} baseTotal={course.price.baseTotal} perLesson={perLesson} lessonCount={course.sessions * course.lessonsPerSession} />
-    {friendPercent > 0 && <p className="course-offer-note">{periodPercent > 0 && <>{periodPercent}% korai + </>}{friendPercent}% baráti kedvezmény, összesen legfeljebb 35%. A baráti kedvezmény a barát befizetése után érvényes.</p>}
+    {friendPercent > 0 && <p className="course-offer-note">{periodPercent > 0 && <>{periodPercent}% korai + </>}{friendPercent}% baráti kedvezmény, összesen legfeljebb 35%. A baráti kedvezmény fizető, a képzésben részt vevő barát után érvényes.</p>}
   </div>;
 }
 
@@ -119,14 +119,14 @@ export function ApplicationForm({ courses: suppliedCourses, selectedCourse, onCo
     finally { submission.pending.current = false; setBusy(false); }
   }
   if (receipt) return <div className="success-panel" role="status"><span className="success-icon">✓</span><h2>{receipt.status === 'WAITLISTED' ? 'Felkerültél a várólistára.' : 'Megérkezett a jelentkezésed.'}</h2>
-    <p>A megadott elérhetőségen 1 munkanapon belül keresünk. A helyed a szerződés, befizetés és adminisztrátori elfogadás után válik véglegessé.</p>
+    <p>A megadott elérhetőségen 1 munkanapon belül keresünk. A helyed az írásbeli szerződés, a legalább 20%-os előleg és az adminisztrátori elfogadás után válik véglegessé. A beküldés önmagában nem keletkeztet fizetési kötelezettséget.</p>
     {receipt.quotedTotal != null && <div className="saved-quote"><div className="course-offer-heading"><div><strong>Beküldéskori feltételes díjajánlat</strong>{receipt.courseName && <p>{receipt.courseName}</p>}</div><DiscountBadge percent={receipt.discountPercent ?? 0} /></div><PriceDisplay total={receipt.quotedTotal} baseTotal={receipt.baseTotal} perLesson={receipt.quotedPerLesson} />{receipt.discountLabel && <p className="course-offer-note">{receipt.discountLabel}</p>}<p className="small">A korai kedvezményhez a teljes díjnak határidőre be kell érkeznie; a baráti kedvezményt a barát befizetése után igazoljuk.</p></div>}
     <p>Laptopbérlés: {formatMoney(receipt.laptopRentalFee ?? 0)} a teljes képzésre.</p><button type="button" className="button button-outline" onClick={() => { setAgeGroup(''); setLaptopRental(false); setReceipt(null); setFriendCount(0); setReferredByFriend(false); submission.reset(); }}>Új jelentkezés</button>
   </div>;
   return <form method="post" className="form-panel application-form" onSubmit={submit}>
     <h2>Jelentkezés a kiválasztott csoportba</h2><p className="muted">A csillaggal jelölt mezők kitöltése szükséges.</p>
     {!applicationsEnabled && <div className="notice">Az online jelentkezés még előkészítés alatt áll. Az űrlap az induláskor válik elérhetővé.</div>}
-    {import.meta.env.DEV && <div className="dev-note">Helyi fejlesztői űrlap. A végleges adatkezelési tájékoztató még előkészítés alatt áll; teszteléshez fiktív adatokat használj.</div>}
+    {import.meta.env.DEV && <div className="dev-note">Helyi fejlesztői űrlap: teszteléshez fiktív adatokat használj.</div>}
     {!suppliedCourses && <><ErrorMessage text={source.error} />{source.error && <button type="button" className="text-button" onClick={() => void source.load()}>Csoportok újratöltése</button>}</>}
     <fieldset disabled={busy}>
       <label>Csoport *<select name="courseId" required value={courseId ?? ''} disabled={loading || !courses.length} onChange={e => select(e.target.value ? Number(e.target.value) : null)}><option value="">{loading ? 'Csoportok betöltése…' : 'Válassz időpontot'}</option>{courses.map(item => <option key={item.id} value={item.id} disabled={!item.registrationOpen && !item.waitlistOpen}>{item.name} · {courseTime(item)}{item.waitlistOpen ? ' – várólista' : !item.registrationOpen ? ' – lezárva' : ''}</option>)}</select></label>
@@ -138,15 +138,15 @@ export function ApplicationForm({ courses: suppliedCourses, selectedCourse, onCo
       <div className="application-extras"><h3>Jönnél baráttal? Szükséged van laptopra?</h3>
         <label>Hány barátot hozol?<input name="friendCount" type="number" min={0} max={10} step={1} value={friendCount} onChange={e => setFriendCount(Number(e.target.value))} aria-describedby="friend-discount-note" /></label>
         <label className="checkbox"><input name="referredByFriend" type="checkbox" checked={referredByFriend} onChange={e => setReferredByFriend(e.target.checked)} /><span>Barát ajánlásával érkezem.</span></label>
-        <p className="small muted" id="friend-discount-note">Barátonként 5% kedvezmény jár. Ha barátod hívott, neked is jár 5%. A baráti és a korai jelentkezési kedvezmény összeadódik, összesen legfeljebb 35%-ig. Ugyanazt a baráti kapcsolatot egyszer számoljuk.</p>
+        <p className="small muted" id="friend-discount-note">Barátonként 5% kedvezmény jár. Ha barátod hívott, neked is jár 5%. A baráti és a határidős teljes befizetéshez kötött korai kedvezmény összeadódik, összesen legfeljebb 35%-ig. Ugyanazt a baráti kapcsolatot egyszer számoljuk.</p>
         {(friendCount > 0 || referredByFriend) && <label>Egyeztetés a baráti kedvezményhez<textarea name="referralNote" rows={2} maxLength={500} placeholder="Rövid megjegyzés az együtt jelentkezésről. Mások elérhetőségét ne add meg." /></label>}
-        <label className="checkbox"><input type="checkbox" name="laptopRentalRequested" checked={laptopRental} onChange={e => setLaptopRental(e.target.checked)} /><span>Laptopbérlést kérek: +30 000 Ft a teljes képzésre. A képzési kedvezmény a bérleti díjat nem csökkenti.</span></label>
+        <label className="checkbox"><input type="checkbox" name="laptopRentalRequested" checked={laptopRental} onChange={e => setLaptopRental(e.target.checked)} /><span>Laptopbérlést kérek: +30 000 Ft a teljes képzésre, a kezdéskor fizetendő. A gépet az órákon, a helyszínen használhatom. A képzési kedvezmény a bérleti díjat nem csökkenti.</span></label>
       </div>
       {laptopRental && course && <p className="notice">Képzési díj a megjelölt kedvezményekkel és laptopbérlés együtt: <strong>{formatMoney(Math.round(course.price.baseTotal * (100 - Math.min(35, course.price.periodDiscountPercent + 5 * Math.max(friendCount, referredByFriend ? 1 : 0))) / 100) + 30000)}</strong></p>}
-      <label>Üzenet<textarea name="message" rows={3} maxLength={4000} placeholder="Kérdésed van, vagy megosztanál valamit?" /></label>
+      <label>Üzenet<textarea name="message" rows={3} maxLength={4000} placeholder="A képzéshez kapcsolódó kérdésedet írd ide. Egészségügyi vagy más érzékeny adatot ne adj meg." /></label>
       <label className="checkbox"><input name="privacy" type="checkbox" required /><span>Megismertem az <a href="/adatkezeles" target="_blank" rel="noopener">adatkezelési tájékoztatót</a>. *</span></label>
       <ErrorMessage text={error} /><button className="button" disabled={busy || !applicationsEnabled || loading || !course || (!course.registrationOpen && !course.waitlistOpen)}>{busy ? 'Küldés folyamatban…' : 'Jelentkezés elküldése'} <Arrow /></button>
-    </fieldset><p className="small muted">Az űrlap elküldése jelentkezési szándékot jelez. A részleteket külön egyeztetjük.</p>
+    </fieldset><p className="small muted">Az űrlap elküldése kötelezettség nélküli jelentkezési szándék, nem szerződés és nem fizetés. Az <a href="/reszveteli-feltetelek">írásbeli jelentkezés és részvétel feltételeit</a> külön egyeztetjük.</p>
   </form>;
 }
 
@@ -162,14 +162,14 @@ export function ProgrammingInterestForm() {
     catch (e) { setError(errorText(e)); }
     finally { submission.pending.current = false; setBusy(false); }
   }
-  if (submitted) return <div className="success-panel interest-success" role="status"><span className="success-icon">✓</span><h3>Rögzítettük az érdeklődésed.</h3><p>A szervezők a megadott e-mail-címen keresnek majd. Ez még nem jelentkezés egy meghirdetett kurzusra.</p></div>;
+  if (submitted) return <div className="success-panel interest-success" role="status"><span className="success-icon">✓</span><h3>Rögzítettük az érdeklődésed.</h3><p>A szervezők a megadott e-mail-címre küldik az ízelítő linkjét. Nem indul automatikus levélsorozat, és ez nem jelentkezés a kurzusra.</p></div>;
   return <form method="post" className="form-panel programming-interest-form" onSubmit={submit}>
-    <h3>Érdekel a programozás?</h3><p className="muted small">Hagyd meg az elérhetőséged, és egyeztetünk a lehetőségekről.</p>
+    <h3>Érdekel a programozás?</h3><p className="muted small">Add meg a neved és e-mail-címed: személyesen elküldjük a rövid ízelítő linkjét. Nem hírlevélre iratkozol fel.</p>
     {!applicationsEnabled && <div className="notice">Az érdeklődési űrlap még előkészítés alatt áll.</div>}
     {import.meta.env.DEV && <p className="dev-note">Helyi próba: tesztadatot használj. Az érdeklődést az adminfelület rögzíti.</p>}
-    <fieldset disabled={busy}><div className="form-grid"><label>Név *<input name="name" required maxLength={120} autoComplete="name" placeholder="Teljes név" /></label><label>E-mail-cím *<input name="email" type="email" required maxLength={254} autoComplete="email" placeholder="pelda@email.hu" /></label></div>
-      <label className="checkbox"><input name="privacy" type="checkbox" required /><span>Megismertem az <a href="/adatkezeles" target="_blank" rel="noopener">adatkezelési tájékoztatót</a>. *</span></label>
-      <ErrorMessage text={error} /><button className="button" disabled={busy || !applicationsEnabled}>{busy ? 'Rögzítés…' : 'Érdekel a programozás'} <Arrow /></button>
+    <p className="small muted">16 éves kor alatt kérd meg szülődet, hogy saját adataival kérje az ízelítőt.</p><fieldset disabled={busy}><div className="form-grid"><label>Név *<input name="name" required maxLength={120} autoComplete="name" placeholder="Teljes név" /></label><label>E-mail-cím *<input name="email" type="email" required maxLength={254} autoComplete="email" placeholder="pelda@email.hu" /></label></div>
+      <label className="checkbox"><input name="privacy" type="checkbox" required /><span>Kérem az ízelítő linkjét e-mailben, és hozzájárulok nevem és e-mail-címem kezeléséhez az <a href="/adatkezeles" target="_blank" rel="noopener">adatkezelési tájékoztató</a> szerint. Kérésemet bármikor visszavonhatom. *</span></label>
+      <ErrorMessage text={error} /><button className="button" disabled={busy || !applicationsEnabled}>{busy ? 'Rögzítés…' : 'Kérem az ízelítőt'} <Arrow /></button>
     </fieldset>
   </form>;
 }
@@ -209,7 +209,7 @@ function AdminPanel({ currentUser }: { currentUser: User }) {
   const tabs: [Tab, string][] = [['applications', 'Jelentkezések'], ['courses', 'Csoportok és naptár'], ['programming', 'Programozós érdeklődők'], ['lessons', 'Órák és anyagok'], ['users', 'Felhasználók'], ['audit', 'Eseménynapló']];
   return <><div className="admin-tabs" role="tablist" aria-label="Adminisztráció részei">{tabs.map(([value, label]) => <button role="tab" aria-selected={tab === value} aria-controls={`panel-${value}`} id={`tab-${value}`} key={value} onClick={() => setTab(value)}>{label}</button>)}</div><div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>{tab === 'courses' ? <CoursesAdmin /> : tab === 'applications' ? <ApplicationsAdmin /> : tab === 'programming' ? <ProgrammingInterestsAdmin /> : tab === 'lessons' ? <LessonsAdmin /> : tab === 'users' ? <UsersAdmin currentUser={currentUser} /> : <AuditAdmin />}</div></>;
 }
-const statuses: Record<ApplicationStatus, string> = { NEW: 'Új', CONTACTED: 'Kapcsolatfelvétel', WAITLISTED: 'Várólista', ACCEPTED: 'Elfogadva', REJECTED: 'Elutasítva' };
+const statuses: Record<ApplicationStatus, string> = { NEW: 'Új', CONTACTED: 'Kapcsolatfelvétel', WAITLISTED: 'Várólista', ACCEPTED: 'Elfogadva', REJECTED: 'Elutasítva', WITHDRAWN: 'Visszavont' };
 function ApplicationsAdmin() {
   const [items, setItems] = useState<Application[]>([]), [courses, setCourses] = useState<Course[]>([]);
   const [filter, setFilter] = useState('ALL'), [courseFilter, setCourseFilter] = useState('ALL'), [search, setSearch] = useState('');
@@ -250,7 +250,7 @@ function ApplicationsAdmin() {
       <div className="section-line"><h3>{selected.studentName}</h3><button type="button" className="text-button" disabled={busy} onClick={() => setSelected(null)}>Bezárás ×</button></div>
       <dl className="record-details">
         <dt>Jelentkezés időpontja</dt><dd><time dateTime={selected.createdAt}>{formatDate(selected.createdAt)}</time> <small className="muted">(budapesti idő, nem módosítható)</small></dd>
-        <dt>Csoport</dt><dd>{selected.courseName || 'Korábbi jelentkezés – nincs csoporthoz rendelve'}</dd>
+        <dt>Tájékoztató változata</dt><dd>{selected.privacyVersion ?? "Korábbi tájékoztató"}</dd>{selected.closedAt && <><dt>Lezárva</dt><dd>{formatDate(selected.closedAt)}</dd></>}<dt>Csoport</dt><dd>{selected.courseName || 'Korábbi jelentkezés – nincs csoporthoz rendelve'}</dd>
         <dt>E-mail</dt><dd><a href={`mailto:${selected.email}`}>{selected.email}</a></dd><dt>Telefon</dt><dd>{selected.phone}</dd><dt>Szülő / gondviselő</dt><dd>{selected.parentName || 'Nincs megadva'}</dd>
         <dt>Beküldéskori ajánlat</dt><dd>{selected.quotedTotal != null ? <><PriceDisplay total={selected.quotedTotal} baseTotal={selected.baseTotal} perLesson={selected.quotedPerLesson} compact />{selected.discountPercent != null && <div className="small muted">Összes kedvezmény: {selected.discountPercent}%{selected.discountLabel && ` · ${selected.discountLabel}`}</div>}{selected.periodDiscountPercent != null && <div className="small muted">Korai kedvezmény: {selected.periodDiscountPercent}% · baráti kedvezmény: {selected.friendDiscountPercent ?? 0}% · összesen legfeljebb 35%.</div>}</> : 'Korábbi jelentkezés – nincs mentett árajánlat'}</dd>
         <dt>Baráti kedvezmény</dt><dd>{selected.friendCount > 0 || selected.referredByFriend ? <>{selected.friendCount > 0 && <>{selected.friendCount} barátot hoz. </>}{selected.referredByFriend && <>Barát ajánlásával érkezik. </>}<div className="small muted">A jogosultságot egyeztetni kell. A rögzített kedvezmény és díj a beküldéskori számítást őrzi.</div></> : 'Nem igényelte'}</dd>
@@ -259,7 +259,7 @@ function ApplicationsAdmin() {
         <dt>Életkor / szülői nyilatkozat</dt><dd>{selected.ageGroup === 'MINOR_14_17' ? `14–17 év · ${selected.guardianConfirmed ? "szülő igazolta" : "hiányzik a nyilatkozat"}` : selected.ageGroup === 'ADULT' ? "Nagykorú" : "Korábbi jelentkezés, egyeztetendő"}</dd><dt>Üzenet</dt><dd className="preserve-lines">{selected.message || 'Nincs üzenet'}</dd>
       </dl>
       <div className="form-grid"><label>Állapot<select name="status" defaultValue={selected.status} disabled={busy}>{Object.entries(statuses).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label><label>Belső megjegyzés<textarea name="notes" rows={3} maxLength={4000} defaultValue={selected.notes ?? ''} disabled={busy} /></label></div>
-      <button className="button" disabled={busy}>{busy ? 'Mentés…' : 'Módosítások mentése'}</button>
+      <p className="small muted">Elfogadáshoz írásbeli szerződés és legalább 20% igazolt előleg kell. Visszalépésnél válaszd a Visszavont állapotot. A szerződés és befizetés nélküli lezárt jelentkezés 90 nap után törlődik.</p><button className="button" disabled={busy}>{busy ? 'Mentés…' : 'Módosítások mentése'}</button>
     </form>}
     {selected && <ApplicationAdministration key={`finance-${selected.id}`} application={selected} courses={courses} applications={items} onUpdated={updated => { setSelected(updated); void load(); }} />}
     {loading ? <Loading /> : visible.length ? <div className="table-wrap"><table><caption className="sr-only">Jelentkezések listája, az időpontok budapesti idő szerint</caption><thead><tr><th>Tanuló</th><th>Csoport</th><th>Beküldve</th><th>Rögzített díj</th><th>Állapot</th><th><span className="sr-only">Művelet</span></th></tr></thead><tbody>{visible.map(item => <tr key={item.id}>
@@ -271,6 +271,7 @@ function ApplicationsAdmin() {
 const interestStatuses: Record<InterestStatus, string> = { NEW: 'Új', CONTACTED: 'Kapcsolatfelvétel', COMPLETED: 'Lezárva' };
 function ProgrammingInterestsAdmin() {
   const [items, setItems] = useState<ProgrammingInterest[]>([]), [selected, setSelected] = useState<ProgrammingInterest | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [loading, setLoading] = useState(true), [busy, setBusy] = useState(false), [filter, setFilter] = useState('ALL'), [error, setError] = useState(''), [success, setSuccess] = useState('');
   async function load() {
     setLoading(true); setError('');
@@ -290,6 +291,16 @@ function ProgrammingInterestsAdmin() {
     } catch (e) { setError(errorText(e)); }
     finally { setBusy(false); }
   }
+  async function remove() {
+    if (!selected || busy) return;
+    const id = selected.id;
+    setBusy(true); setError(''); setSuccess('');
+    try {
+      await api(`/admin/programming-interests/${id}`, { method: 'DELETE' });
+      setItems(current => current.filter(item => item.id !== id));
+      setSelected(null); setDeleteConfirm(false); setSuccess('A visszavont ízelítőkérés személyes adatait töröltük.');
+    } catch (e) { setError(errorText(e)); } finally { setBusy(false); }
+  }
   const visible = items.filter(item => filter === 'ALL' || item.status === filter);
   return <>
     <div className="section-line"><div><h2>Programozós érdeklődők</h2><p className="muted small">Összesen {items.length} érdeklődés. A kapcsolatfelvételt a szervezők intézik.</p></div><button className="button button-outline" disabled={loading || busy} onClick={() => void load()}>Frissítés</button></div>
@@ -297,12 +308,12 @@ function ProgrammingInterestsAdmin() {
     <ErrorMessage text={error} /><Success text={success} />
     {selected && <form method="post" className="form-panel edit-panel" onSubmit={save} key={selected.id}>
       <div className="section-line"><h3>{selected.name}</h3><button type="button" className="text-button" disabled={busy} onClick={() => setSelected(null)}>Bezárás ×</button></div>
-      <dl className="record-details"><dt>E-mail</dt><dd><a href={`mailto:${selected.email}`}>{selected.email}</a></dd><dt>Érkezett</dt><dd><time dateTime={selected.createdAt}>{formatDate(selected.createdAt)}</time> <small className="muted">(budapesti idő)</small></dd><dt>Utoljára módosítva</dt><dd>{formatDate(selected.updatedAt)}</dd></dl>
+      <dl className="record-details"><dt>E-mail</dt><dd><a href={`mailto:${selected.email}`}>{selected.email}</a></dd><dt>Érkezett</dt><dd><time dateTime={selected.createdAt}>{formatDate(selected.createdAt)}</time> <small className="muted">(budapesti idő)</small></dd><dt>Hozzájárulás ideje</dt><dd>{formatDate(selected.privacyAcceptedAt)}</dd><dt>Tájékoztató verziója</dt><dd>{selected.privacyVersion}</dd><dt>Utoljára módosítva</dt><dd>{formatDate(selected.updatedAt)}</dd>{selected.completedAt && <><dt>Lezárva</dt><dd>{formatDate(selected.completedAt)}</dd></>}</dl><p className="small muted">A link tényleges elküldése után jelöld Lezárva állapotúnak; ettől indul a 90 napos megőrzés. Hozzájárulás visszavonásakor használd a Visszavonás és adattörlés gombot.</p>
       <div className="form-grid"><label>Állapot<select name="status" defaultValue={selected.status} disabled={busy}>{Object.entries(interestStatuses).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label><label>Belső megjegyzés<textarea name="notes" rows={4} maxLength={4000} defaultValue={selected.notes ?? ''} disabled={busy} placeholder="Kapcsolatfelvétel, egyeztetett következő lépés…" /></label></div>
-      <button className="button" disabled={busy}>{busy ? 'Mentés…' : 'Módosítások mentése'}</button>
+      <button className="button" disabled={busy}>{busy ? 'Mentés…' : 'Módosítások mentése'}</button><div className="interest-delete">{deleteConfirm ? <><p>Véglegesen töröljük ezt az ízelítőkérést és a hozzá tartozó személyes adatokat?</p><button type="button" className="text-button danger" disabled={busy} onClick={() => void remove()}>Igen, törlés</button><button type="button" className="text-button" disabled={busy} onClick={() => setDeleteConfirm(false)}>Mégse</button></> : <button type="button" className="text-button danger" disabled={busy} onClick={() => setDeleteConfirm(true)}>Visszavonás és adattörlés</button>}</div>
     </form>}
     {loading ? <Loading /> : visible.length ? <div className="table-wrap"><table><caption className="sr-only">Programozós érdeklődők és a kézi kapcsolatfelvétel állapota</caption><thead><tr><th>Név</th><th>E-mail</th><th>Érkezett</th><th>Állapot</th><th><span className="sr-only">Művelet</span></th></tr></thead><tbody>{visible.map(item => <tr key={item.id}>
-      <td><strong>{item.name}</strong></td><td><a href={`mailto:${item.email}`}>{item.email}</a></td><td><time dateTime={item.createdAt}>{formatDate(item.createdAt)}</time></td><td><span className={`status status-${item.status === 'COMPLETED' ? 'accepted' : item.status.toLowerCase()}`}>{interestStatuses[item.status]}</span></td><td><button type="button" className="text-button" onClick={() => { setSelected(item); setSuccess(''); }}>Megnyitás ↗</button></td>
+      <td><strong>{item.name}</strong></td><td><a href={`mailto:${item.email}`}>{item.email}</a></td><td><time dateTime={item.createdAt}>{formatDate(item.createdAt)}</time></td><td><span className={`status status-${item.status === 'COMPLETED' ? 'accepted' : item.status.toLowerCase()}`}>{interestStatuses[item.status]}</span></td><td><button type="button" className="text-button" onClick={() => { setSelected(item); setSuccess(''); setDeleteConfirm(false); }}>Megnyitás ↗</button></td>
     </tr>)}</tbody></table></div> : !error && <Empty>{items.length ? 'Nincs a szűrésnek megfelelő érdeklődés.' : 'Még nem érkezett programozós érdeklődés.'}</Empty>}
   </>;
 }

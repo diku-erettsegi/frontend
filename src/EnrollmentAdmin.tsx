@@ -20,17 +20,17 @@ export function ApplicationAdministration({ application: initial, courses, appli
   }
   const f = item.finance;
   return <div className="form-panel edit-panel"><h3>Szerződés és befizetés · {item.studentName}</h3>
-    <p className="small muted">Kézi nyilvántartás. A banki / készpénzes befizetést és a barátok fizetését ellenőrizd. A beküldéskori ajánlat változatlan marad. Számlázás: külön, a Számlaközpontban.</p>
+    <p className="small muted">Kézi nyilvántartás. A banki / készpénzes befizetést és a barátok fizetését ellenőrizd. A beküldéskori ajánlat változatlan marad. Elfogadáshoz írásbeli szerződés és a szerver által igazolt képzési díj legalább 20%-ának befizetése szükséges. Számlázás: külön, a Számlaközpontban.</p>
     <Feedback error={error} success={success} />
     <form onSubmit={event => void save(event)}><fieldset disabled={busy}>
       <label className="checkbox"><input name="contractConfirmed" type="checkbox" defaultChecked={f.contractConfirmed} /><span>A szerződés létrejöttét ellenőriztem.</span></label>
       <div className="form-grid"><label>Beérkezett képzési díj összesen (Ft)<input name="paidTrainingTotal" type="number" min={0} max={10000000} step={1} required defaultValue={f.paidTrainingTotal} /><small>Laptopbérlés nélkül. Részletfizetés is rögzíthető.</small></label>
         <label>A teljes képzési díj beérkezésének napja<input name="fullPaymentDate" type="date" defaultValue={f.fullPaymentDate ?? ''} /><small>Részletfizetésnél addig maradjon üres, amíg a teljes összeg be nem érkezett.</small></label>
-        <label>Igazolt, már fizető barátok száma<input name="verifiedFriendCount" type="number" min={0} max={10} step={1} required defaultValue={f.verifiedFriendCount} /><small>Meghívó / meghívott kapcsolatot egyszer számolj; másik csoport is megengedett.</small></label></div>
+        <label>Igazolt, már fizető barátok száma<input name="verifiedFriendCount" type="number" min={0} max={10} step={1} required defaultValue={f.verifiedFriendCount} /><small>Meghívó / meghívott kapcsolatot egyszer számolj. Visszalépő vagy nem fizető barátot ne igazolj; ilyen változáskor javítsd a darabszámot.</small></label></div>
       <button className="button" disabled={busy}>{busy ? 'Mentés…' : 'Pénzügyi adatok mentése'}</button>
     </fieldset></form>
     <div className="saved-quote"><strong>Igazolt feltételek szerinti képzési díj</strong>{f.trainingTotal != null ? <PriceDisplay total={f.trainingTotal} baseTotal={item.baseTotal} perLesson={f.trainingTotal / 80} compact /> : <p>Korábbi jelentkezés, nincs mentett alapdíj. Egyedi egyeztetés szükséges.</p>}
-      <p>Beérkezett: {formatMoney(f.paidTrainingTotal)} · {f.trainingBalance != null && <>{f.trainingBalance < 0 ? 'Túlfizetés' : 'Hátralék'}: {formatMoney(Math.abs(f.trainingBalance))}</>}</p>
+      <p><strong>Elfogadáshoz szükséges előleg: {f.minimumAdvanceTotal == null ? "Korábbi adat, egyedi ellenőrzés" : formatMoney(f.minimumAdvanceTotal)}</strong></p><p>Beérkezett: {formatMoney(f.paidTrainingTotal)} · {f.trainingBalance != null && <>{f.trainingBalance < 0 ? 'Túlfizetés' : 'Hátralék'}: {formatMoney(Math.abs(f.trainingBalance))}</>}</p>
       <p className="small">Korai kedvezmény: {f.periodDiscountPercent}%. Teljes kedvezmény: {f.discountPercent}%. A korai kedvezményhez a teljes díjnak be kell érkeznie a határidőig.</p>
       <p className="small">Laptopbérlés külön: {f.laptopRentalFee == null ? 'Korábbi igény, egyeztetendő' : formatMoney(f.laptopRentalFee)}. A képzési befizetések fenti összesítője ezt nem tartalmazza.</p></div>
     {item.courseId && <details><summary>Csoportváltás vagy helycsere</summary><form onSubmit={event => void save(event, true)}><fieldset disabled={busy}>
