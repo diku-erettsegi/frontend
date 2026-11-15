@@ -2,6 +2,8 @@
 
 ## Oktatás menete: pontosítási blokk eltávolítása – 2026. november 15.
 
+Éles ellenőrzés sikeres: `c011ad2`, GitHub Actions `43725972104` success, deploy 2026-11-15 15:47:47 Budapest. Publikus HTTP 200; „Pontosítás alatt” nincs, órarend megmaradt. Négy healthy konténer, nincs függő kiadás. Frontend image `sha256:fa136b6312daa574ded12f77a4e29bfd80a1f5116e6185a04ed008648d768d08`. Helyi build és 10/10 teszt sikeres.
+
 Felhasználói kérésre az `/oktatas-menete` oldal aljáról a teljes „Pontosítás alatt” helyőrző blokk eltávolítva, a benne szereplő szöveggel együtt. A tanulási tartalom, órarend, tanulói fájlok és kurzus CTA megmarad. Nincs új adat, API- vagy stílusváltozás. Ellenőrzés: production build, meglévő frontendtesztek és éles HTML a kiadás után.
 
 ## Oktatói portréhelyek eltávolítása – 2026. november 15.
