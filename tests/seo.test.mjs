@@ -36,6 +36,9 @@ test('Known course facts and approved pricing remain visible without JavaScript'
   const pricing = await readFile('dist/arak/index.html', 'utf8');
   for (const amount of ['280 000', '210 000', '238 000', '196 000', '182 000', '224 000']) assert.ok(pricing.includes(amount), amount);
   assert.ok(pricing.includes('legfeljebb 35%'));
+  assert.ok(pricing.includes('dateTime="2026-11-25"'), 'Super Early Bird payment cutoff');
+  assert.ok(pricing.includes('dateTime="2026-11-26"'), 'Early Bird starts after the extended cutoff');
+  assert.ok(!/2026-11-(?:15|16)/.test(pricing), 'Old cutoff must not be advertised');
   assert.ok(!pricing.includes('összevonhatósága'));
 });
 test('Exam downloads link to the official publisher and identify file types', async () => {

@@ -1,5 +1,19 @@
 # diku-erettsegi.hu – React frontend
 
+## Tantermi és otthoni felkészülés – 2026. november 15.
+
+A főoldal, az Így tanulunk, a Szülőknek és a Diákoknak oldal képes, kérdés-válasz blokkokkal mutatja be a gyakorlatias feladatmegoldást. Kiemelt a két oktató személyes figyelme, a körbejárás és elakadások észrevétele, a gyorsabban haladók pluszfeladatai, valamint az otthoni ismétlés és gyakorló feladatsorok. A közös `src/LearningContent.tsx` és `src/learning-content.css` három lépésben kapcsolja össze a tantermi munkát, a saját tempójú otthoni gyakorlást és a következő órai kérdezést. Az oldalanként eltérő szülői/diák megszólítás és meta description megmarad; a főoldali SEO H1 változatlan.
+
+A felhasználó által kért képzési szolgáltatás szerint minden órán készül visszanézhető oktatói felvétel. A szöveg egyértelmű: csak az oktató hangja és képernyője rögzíthető, a diákok hangja, képe és neve nem. Ez a változás a képzés bemutatását bővíti, nem épít automatikus rögzítést vagy videólejátszót a tanulói portálba. A felvételek technikai közzététele külön szervezői feladat; a működő portál továbbra is közzétett órai fájlokat és csatlakozási linkeket kezel.
+
+A digitális kultúra választását gyakorlati és továbbtanulási szempontok támogatják; nincs garantáltan könnyű vizsga, biztos pontszám vagy minden szakra érvényes beszámítás ígérete. A főoldali és diákblokk a [2027-es Felvi követelménykeresőre](https://www.felvi.hu/felveteli/pontszamitas/pontszamitas_27_28) mutat; az intézmény/szak szerinti eltérést közvetlenül jelzi. A kutatási források a közös database/docs átadásban követhetők.
+
+Super Early Bird: teljes kedvezményes képzési díj beérkezése **2026. november 25-ig**, 25%; Early Bird: **november 26. – december 15.**, 15%. A publikus Árak, GYIK és részvételi feltételek ezt közlik. Az API-ból jövő kurzus- és jelentkezési árat továbbra is a backend számolja; a frontend nem írja át a korábbi jelentkezések mentett árait. A 35%-os összesített plafon és a teljes befizetés feltétele változatlan.
+
+A négy meglévő helyi WebP stockfotót használjuk újra; nincs új képletöltés, AI-kép, harmadik fél hálózati kérése, új függőség vagy útvonal. A források a `../database/docs/IMAGE-ASSETS.md` fájlban találhatók. Az új képes blokkok rögzített képmérettel, pontos stock-alt szöveggel és lazy betöltéssel készülnek; 900 és 640 px töréspontok kezelik a szűkebb nézeteket.
+
+Ellenőrzés: `VITE_APPLICATIONS_ENABLED=true npm run build` (TypeScript, kliens/SSR, 19 oldal + 404), `npm test` 10/10. A meglévő ár/SEO ellenőrzés a november 25-i határt és november 26-i váltást is ellenőrzi. Statikus HTML-ellenőrzés: mind a négy oldal helyi képei léteznek, méretük/alt szövegük megadott, nincs ismétlődő ID vagy hibás ARIA-hivatkozás, a kurzus CTA mindenhol jelen van; Árak/GYIK/részvételi dátumok egyeznek. Böngészős vizuális ellenőrzés ebben a körben nem történt a korábban dokumentált computer-use korlátozás miatt; mobil/asztali megjelenésre nem állítunk új vizuális PASS-t. Az éles kiadás állapotát a közös DEPLOY-STATUS rögzíti.
+
 ## Jelentkezési indulás – 2026. november 13.
 
 Az új válaszok alapján a jelentkezés kötelezettség nélküli szándékjelzés; írásbeli szerződés és legalább 20% igazolt előleg után fogadható el. Részletfizetés: 20% előleg után legfeljebb 4 egyenlő havi részlet. Korai kedvezményhez továbbra is teljes, határidős befizetés kell. A laptop 30 000 Ft / teljes képzés, a kezdéskor fizetendő, csak helyszíni órai használatra. Visszalépő vagy nem fizető barát után nem jár kedvezmény. A public checkbox a jelentkezésnél tájékoztató-megismerés; az ízelítőnél külön egyszeri linkküldési és adatkezelési hozzájárulás. Nincs automatikus levelezés.
