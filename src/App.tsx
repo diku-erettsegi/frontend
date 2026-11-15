@@ -103,18 +103,18 @@ function Teachers() {
     <PageIntro eyebrow="Akikkel együtt készülsz" title="Két nézőpont. Közös figyelem." text="Balázs és Peti együtt segítenek a tanteremben: tapasztalat, friss nézőpont és sok közös feladatmegoldás." />
     <div className="teacher-grid">
       <article className="teacher-profile">
-        <div className="portrait-placeholder"><span>B.</span><small>Balázs portréja hamarosan</small></div>
+        <h2 className="teacher-name">Balázs</h2>
         <div className="teacher-bio">
-          <span className="eyebrow">Több mint 25 év oktatói tapasztalat</span><h2>Varga Balázs</h2>
+          <span className="eyebrow">Több mint 25 év oktatói tapasztalat</span>
           <p>A szoftverfejlesztés, a tervezés és az adatbázis-kezelés mellett több mint 25 éve oktatok. Több száz diákot, oktatót és kollégát tanítottam már magánórákon, kis- és nagycsoportos képzéseken, középiskolai és egyetemi környezetben.</p>
           <p>A Szegedi Tudományegyetemen végeztem programtervező matematikusként. Felnőttképzési végzettségekkel is rendelkezem, tréner és coach vagyok.</p>
           <p>Óráimon a személyes figyelemre, az összefüggések megértésére és az önálló feladatmegoldásra építek. Célom, hogy a technikai tudás mellett a diákok önbizalma is erősödjön.</p>
         </div>
       </article>
       <article className="teacher-profile">
-        <div className="portrait-placeholder portrait-second"><span>P.</span><small>Peti portréja hamarosan</small></div>
+        <h2 className="teacher-name">Peti</h2>
         <div className="teacher-bio">
-          <span className="eyebrow">Közel a diákokhoz</span><h2>Peti</h2>
+          <span className="eyebrow">Közel a diákokhoz</span>
           <p>Szoftverfejlesztő végzettségem van, és négy éve tartok kiscsoportos korrepetálásokat. Több száz diákkal foglalkoztam már online és tantermi környezetben egyaránt. Gyorsan megtalálom a közös hangot a diákokkal.</p>
           <p>A Budapesti Műszaki és Gazdaságtudományi Egyetem hallgatója vagyok. Jól ismerem azokat a kérdéseket és elakadásokat, amelyek tanulás közben előkerülnek, és segítek lépésenként továbblépni.</p>
           <p>Az óráimon fontosnak tartom a jó hangulatot és az önálló gondolkodást. Szerintem az egyik legjobb érzés, amikor magadtól jössz rá a megoldásra: ilyenkor igazán megtapasztalod, mire vagy képes, és ez újabb motivációt ad a tanuláshoz.</p>

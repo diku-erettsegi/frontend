@@ -1,5 +1,11 @@
 # Tartalmi módosítások
 
+## Oktatói portréhelyek eltávolítása – 2026. november 15.
+
+Felhasználói kérésre az oktatói portréhelyőrzők és a „portréja hamarosan” feliratok eltűntek. Helyettük egyszerű H2 névcímek: Balázs és Peti. Nincs üres képoszlop vagy portrényi fenntartott hely; mindkét bemutatkozás azonos szélességű és a közös grid által kiegyenlített magasságú marad. A jóváhagyott életrajzi bekezdések változatlanok. Mobilon egy oszlop, asztalon két oszlop. A korábbi portrés leírások történetiek.
+
+Ellenőrzés: production build (19 útvonal + 404), 10 frontendteszt és diff-ellenőrzés. Böngészős vizuális próba nem történt. Kiadás: main push után az automatikus CI/deploy; a publikus HTML ellenőrzése külön követi.
+
 ## Azonos méretű oktatói szövegkártyák – 2026. november 15.
 
 A felhasználó kérésére az `/oktatok` oldalon Balázs és Peti szövegdoboza egyforma szélességű és magasságú. A `src/launch.css` korábbi 1.35:1 asztali oszloparányát két egyenlő oszlop váltja. A profilok kitöltik a közös grid-sort, a szövegrész egységes belső térközt, finom keretet és hátteret kap. A portrék külön a profil tetejéhez igazodnak; nem nyúlnak meg a szöveggel.
