@@ -4,7 +4,7 @@
 
 Felhasználói kérésre az oktatói portréhelyőrzők és a „portréja hamarosan” feliratok eltűntek. Helyettük egyszerű H2 névcímek: Balázs és Peti. Nincs üres képoszlop vagy portrényi fenntartott hely; mindkét bemutatkozás azonos szélességű és a közös grid által kiegyenlített magasságú marad. A jóváhagyott életrajzi bekezdések változatlanok. Mobilon egy oszlop, asztalon két oszlop. A korábbi portrés leírások történetiek.
 
-Ellenőrzés: production build (19 útvonal + 404), 10 frontendteszt és diff-ellenőrzés. Böngészős vizuális próba nem történt. Kiadás: main push után az automatikus CI/deploy; a publikus HTML ellenőrzése külön követi.
+Ellenőrzés: production build (19 útvonal + 404), 10 frontendteszt és diff-ellenőrzés sikeres. Böngészős vizuális próba nem történt. Élesítés kész: `01f8f08`, GitHub Actions `43725441473` success; szerveres utolsó siker 2026-11-15 14:40:22 UTC (15:40:22 Budapest). Publikus `/oktatok` HTTP 200, két névcím: Balázs/Peti, nincs portrait-placeholder. Négy healthy konténer, nincs függő kiadás/helyreállítás. Frontend image: `sha256:6e151cec740defec6d1c5ca15e8a738e42660532a682daba43a6ca46528715e8`. A konténercsere alatti átmeneti 502 megszűnt.
 
 ## Azonos méretű oktatói szövegkártyák – 2026. november 15.
 
