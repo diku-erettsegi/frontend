@@ -99,7 +99,30 @@ function Pricing() {
   </div>;
 }
 function Teachers() {
-  return <div className="container page-content"><PageIntro eyebrow="Akikkel együtt készülsz" title="Két nézőpont. Közös figyelem." text="Balázs és Peti együtt segítenek a tanteremben: tapasztalat, friss nézőpont és sok közös feladatmegoldás." /><div className="teacher-grid"><article className="teacher-profile"><div className="portrait-placeholder"><span>B.</span><small>Balázs portréja hamarosan</small></div><div className="teacher-bio"><span className="eyebrow">Több mint 25 év oktatói tapasztalat</span><h2>Varga Balázs</h2><p>Szoftverfejlesztés, tervezés és adatbázis-kezelés mellett több mint 25 éve oktat. Több száz diák, oktató és kolléga tanult nála: magánórákon, kis- és nagycsoportos képzéseken, középiskolai és egyetemi környezetben.</p><p>A Szegedi Tudományegyetemen végzett programtervező matematikusként. Felnőttképzési végzettségekkel is rendelkezik, tréner és coach.</p><p>Óráin a személyes figyelemre, az összefüggések megértésére és az önálló feladatmegoldásra épít. Célja, hogy a technikai tudás mellett a diákok önbizalma is erősödjön.</p></div></article><article className="teacher-profile"><div className="portrait-placeholder portrait-second"><span>P.</span><small>Peti portréja hamarosan</small></div><div className="teacher-bio"><span className="eyebrow">Közel a diákokhoz</span><h2>Peti</h2><p>Egyetemista, négy éve tart kiscsoportos korrepetálást. Jól ismeri azokat a kérdéseket és elakadásokat, amelyek tanulás közben előkerülnek, és segít lépésenként továbblépni.</p></div></article></div><div className="inline-cta"><div><h2>Mindketten ott vagyunk.</h2><p className="muted small">Legfeljebb 24 diákra két oktató figyel.</p></div><a href="/kurzusok" className="button">Megnézem a csoportokat <Arrow /></a></div></div>;
+  return <div className="container page-content">
+    <PageIntro eyebrow="Akikkel együtt készülsz" title="Két nézőpont. Közös figyelem." text="Balázs és Peti együtt segítenek a tanteremben: tapasztalat, friss nézőpont és sok közös feladatmegoldás." />
+    <div className="teacher-grid">
+      <article className="teacher-profile">
+        <div className="portrait-placeholder"><span>B.</span><small>Balázs portréja hamarosan</small></div>
+        <div className="teacher-bio">
+          <span className="eyebrow">Több mint 25 év oktatói tapasztalat</span><h2>Varga Balázs</h2>
+          <p>A szoftverfejlesztés, a tervezés és az adatbázis-kezelés mellett több mint 25 éve oktatok. Több száz diákot, oktatót és kollégát tanítottam már magánórákon, kis- és nagycsoportos képzéseken, középiskolai és egyetemi környezetben.</p>
+          <p>A Szegedi Tudományegyetemen végeztem programtervező matematikusként. Felnőttképzési végzettségekkel is rendelkezem, tréner és coach vagyok.</p>
+          <p>Óráimon a személyes figyelemre, az összefüggések megértésére és az önálló feladatmegoldásra építek. Célom, hogy a technikai tudás mellett a diákok önbizalma is erősödjön.</p>
+        </div>
+      </article>
+      <article className="teacher-profile">
+        <div className="portrait-placeholder portrait-second"><span>P.</span><small>Peti portréja hamarosan</small></div>
+        <div className="teacher-bio">
+          <span className="eyebrow">Közel a diákokhoz</span><h2>Peti</h2>
+          <p>Szoftverfejlesztő végzettségem van, és négy éve tartok kiscsoportos korrepetálásokat. Több száz diákkal foglalkoztam már online és tantermi környezetben egyaránt. Gyorsan megtalálom a közös hangot a diákokkal.</p>
+          <p>A Budapesti Műszaki és Gazdaságtudományi Egyetem hallgatója vagyok. Jól ismerem azokat a kérdéseket és elakadásokat, amelyek tanulás közben előkerülnek, és segítek lépésenként továbblépni.</p>
+          <p>Az óráimon fontosnak tartom a jó hangulatot és az önálló gondolkodást. Szerintem az egyik legjobb érzés, amikor magadtól jössz rá a megoldásra: ilyenkor igazán megtapasztalod, mire vagy képes, és ez újabb motivációt ad a tanuláshoz.</p>
+        </div>
+      </article>
+    </div>
+    <div className="inline-cta"><div><h2>Mindketten ott vagyunk.</h2><p className="muted small">Legfeljebb 24 diákra két oktató figyel.</p></div><a href="/kurzusok" className="button">Megnézem a csoportokat <Arrow /></a></div>
+  </div>;
 }
 function AudiencePage({ parent }: { parent: boolean }) {
   return <><div className="container page-content"><PageIntro eyebrow={parent ? 'Szülőknek' : 'Diákoknak'} title={parent ? 'Átlátható felkészülés. Személyes segítség.' : 'Nem kell mindent elsőre értened.'} text={parent ? 'Tantermi digitális kultúra felkészítő az emelt érettségire: személyes figyelem, gyakorlatias órák és otthon is használható segítség.' : 'A tantermi digitális kultúra felkészítőn te oldod meg a feladatot, mi segítünk továbblépni. Otthon visszanézhetsz és a saját tempódban gyakorolhatsz.'} /><AudienceContent parent={parent} /></div><CTABand /></>;
