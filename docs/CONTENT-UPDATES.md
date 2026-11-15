@@ -1,5 +1,9 @@
 # Tartalmi módosítások
 
+## Oktatás menete: pontosítási blokk eltávolítása – 2026. november 15.
+
+Felhasználói kérésre az `/oktatas-menete` oldal aljáról a teljes „Pontosítás alatt” helyőrző blokk eltávolítva, a benne szereplő szöveggel együtt. A tanulási tartalom, órarend, tanulói fájlok és kurzus CTA megmarad. Nincs új adat, API- vagy stílusváltozás. Ellenőrzés: production build, meglévő frontendtesztek és éles HTML a kiadás után.
+
 ## Oktatói portréhelyek eltávolítása – 2026. november 15.
 
 Felhasználói kérésre az oktatói portréhelyőrzők és a „portréja hamarosan” feliratok eltűntek. Helyettük egyszerű H2 névcímek: Balázs és Peti. Nincs üres képoszlop vagy portrényi fenntartott hely; mindkét bemutatkozás azonos szélességű és a közös grid által kiegyenlített magasságú marad. A jóváhagyott életrajzi bekezdések változatlanok. Mobilon egy oszlop, asztalon két oszlop. A korábbi portrés leírások történetiek.
